@@ -1,3 +1,4 @@
+//script.js
 const input = document.getElementById("status-input")
 input.value = sessionStorage.getItem("status") || ""
 

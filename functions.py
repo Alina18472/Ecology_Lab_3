@@ -1,3 +1,4 @@
+#functions.py
 import numpy as np
 
 def pend(x, C, faks, f, xm):

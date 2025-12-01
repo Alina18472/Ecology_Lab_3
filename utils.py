@@ -1,4 +1,4 @@
-# utils_ecology.py
+# utils.py
 import os
 
 def get_initial_equations_from_inputs(ui):
