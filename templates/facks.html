@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Внешние возмущения системы</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+        .disturbances-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .graphic-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .disturbances-info {
+            margin-top: 30px;
+        }
+        
+        .disturbances-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .disturbance-type {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            border-top: 4px solid #e74c3c;
+        }
+        
+        .disturbance-type h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .disturbance-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .disturbance-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .disturbance-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .disturbance-symbol {
+            font-weight: bold;
+            color: #e74c3c;
+            min-width: 50px;
+            font-family: monospace;
+        }
+        
+        .disturbance-desc {
+            flex: 1;
+        }
+        
+        .disturbance-desc strong {
+            color: #2c3e50;
+        }
+        
+        .no-data-message {
+            text-align: center;
+            padding: 40px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+        }
+        
+        .no-data-message h3 {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .no-data-message p {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .btn-back {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .btn-back:hover {
+            background-color: #c0392b;
+        }
+        
+        .info-box {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #ffb300;
+        }
+        
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .legend-color {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <header>
+        <ul class="nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Параметры модели</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/graphic">График потерь</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/diagrams">Диаграммы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/facks">Возмущения</a>
+            </li>
+        </ul>
+    </header>
+
+    <div class="all">
+        <div class="container">
+            <div class="disturbances-section">
+                <h2 class="page-title">Внешние возмущения и факторы окружающей среды</h2>
+                <p class="page-subtitle">Графики внешних факторов, влияющих на потери от загрязнения атмосферы</p>
+                
+                <div class="info-box">
+                    <p><strong>Внимание:</strong> В модели используются два типа возмущений:</p>
+                    <div style="margin-top: 10px;">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #1f77b4;"></span>
+                            <span><strong>Зависящие от времени (x1-x6):</strong> Постоянные значения на интервале</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #e377c2;"></span>
+                            <span><strong>Зависящие от концентрации (x7-x14):</strong> Зависят от C</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="image-container" id="disturbances-container">
+                    <!-- График возмущений будет загружен здесь -->
+                    <img src="/static/images/disturbances_eco.png" id="disturbances-image" class="graphic-img"
+                         onerror="this.style.display='none'">
+                </div>
+                
+                <div class="disturbances-info">
+                    <div class="disturbances-grid">
+                        <div class="disturbance-type">
+                            <h3>Возмущения, зависящие от времени (постоянные)</h3>
+                            <ul class="disturbance-list">
+                                <li>
+                                    <span class="disturbance-symbol">x₁(t)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Износ технологического оборудования</strong><br>
+                                        Влияет на эффективность работы предприятия
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₂(t)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Возможность использования кредитных ресурсов</strong><br>
+                                        Влияет на инвестиции в экологические технологии
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₃(t)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Привлечение зарубежных инвесторов</strong><br>
+                                        Влияет на развитие предприятия и внедрение новых технологий
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₄(t)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Спрос на продукцию предприятия</strong><br>
+                                        Влияет на объем производства и выбросов
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₅(t)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Сложность найма сотрудников</strong><br>
+                                        Влияет на качество управления процессами
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₆(t)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Деловая репутация компании</strong><br>
+                                        Влияет на отношение общества и регуляторов
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="disturbance-type">
+                            <h3>Возмущения, зависящие от концентрации</h3>
+                            <ul class="disturbance-list">
+                                <li>
+                                    <span class="disturbance-symbol">x₇(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Повышенный уровень смога</strong><br>
+                                        Усиливает негативное воздействие на здоровье
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₈(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Высокая задымленность от лесных пожаров</strong><br>
+                                        Дополнительный источник загрязнения
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₉(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Продолжительный летний антициклон</strong><br>
+                                        Ухудшает рассеивание загрязняющих веществ
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₁₀(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Продолжительный зимний антициклон</strong><br>
+                                        Способствует накоплению загрязнений
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₁₁(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Высокая загруженность автомагистралей</strong><br>
+                                        Источник дополнительных выбросов автотранспорта
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₁₂(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Наличие крупных промышленных предприятий</strong><br>
+                                        Фоновое загрязнение территории
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₁₃(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Эпидемиологическая ситуация</strong><br>
+                                        Влияет на уязвимость населения
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="disturbance-symbol">x₁₄(C)</span>
+                                    <div class="disturbance-desc">
+                                        <strong>Наличие санкций</strong><br>
+                                        Влияет на хозяйственную деятельность предприятия
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding: 20px; background-color: #e8f5e9; border-radius: 8px; border-left: 4px solid #4caf50;">
+                        <h3 style="margin-top: 0; color: #2e7d32;">Как читать график:</h3>
+                        <p><strong>Верхняя часть:</strong> Показывает постоянные значения возмущений x1-x6 (горизонтальные линии). Высота линии соответствует значению возмущения.</p>
+                        <p><strong>Нижняя часть:</strong> Покажает, как возмущения x7-x14 изменяются в зависимости от концентрации загрязняющих веществ (C). Кривые показывают значение возмущения при разных C.</p>
+                        <p><strong>Ось X (нижний график):</strong> C - концентрация загрязняющих веществ (0-1)</p>
+                        <p><strong>Ось Y:</strong> Значение возмущения (0-10, относительные единицы)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/disturbancesChecker.js"></script>
+</body>
+</html>

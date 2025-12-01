@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>График потерь от загрязнения атмосферы</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+        .graphic-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .graphic-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .graphic-info {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .graphic-info h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .variables-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .variable-item {
+            background-color: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .variable-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .variable-desc {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .no-data-message {
+            text-align: center;
+            padding: 40px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+        }
+        
+        .no-data-message h3 {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .no-data-message p {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .btn-back {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .btn-back:hover {
+            background-color: #2980b9;
+        }
+        
+        .legend-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <header>
+        <ul class="nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Параметры модели</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/graphic">График потерь</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/diagrams">Диаграммы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/facks">Возмущения</a>
+            </li>
+        </ul>
+    </header>
+
+    <div class="all">
+        <div class="container">
+            <div class="graphic-section">
+                <h2 class="page-title">График потерь от загрязнения атмосферы</h2>
+                <p class="page-subtitle">Зависимость различных видов потерь от концентрации загрязняющих веществ (C)</p>
+                
+                <div class="image-container" id="graphic-container">
+                    <!-- График будет загружен здесь -->
+                    <img src="/static/images/figure_eco.png" id="graphic-image" class="graphic-img" 
+                         onerror="this.style.display='none'">
+                </div>
+                
+                <div class="graphic-info">
+                    <h3>Описание переменных:</h3>
+                    <div class="variables-list">
+                        <div class="variable-item">
+                            <div class="variable-name">
+                                <span class="legend-box" style="background-color: #1f77b4;"></span>
+                                Cf1 - Потери от заболеваемости населения
+                            </div>
+                            <div class="variable-desc">
+                                Потери, связанные с ростом заболеваемости населения из-за загрязнения атмосферы
+                            </div>
+                        </div>
+                        
+                        <div class="variable-item">
+                            <div class="variable-name">
+                                <span class="legend-box" style="background-color: #ff7f0e;"></span>
+                                Cf2 - Потери сельского хозяйства
+                            </div>
+                            <div class="variable-desc">
+                                Потери сельского хозяйства от воздействия атмосферных поллютантов
+                            </div>
+                        </div>
+                        
+                        <div class="variable-item">
+                            <div class="variable-name">
+                                <span class="legend-box" style="background-color: #2ca02c;"></span>
+                                Cf3 - Потери от изменения природной среды
+                            </div>
+                            <div class="variable-desc">
+                                Потери от изменения природной среды и экосистем
+                            </div>
+                        </div>
+                        
+                        <div class="variable-item">
+                            <div class="variable-name">
+                                <span class="legend-box" style="background-color: #d62728;"></span>
+                                Cf4 - Потери от ухудшения качества жизни
+                            </div>
+                            <div class="variable-desc">
+                                Потери из-за ухудшения качества жизни населения в результате систематического воздействия
+                            </div>
+                        </div>
+                        
+                        <div class="variable-item">
+                            <div class="variable-name">
+                                <span class="legend-box" style="background-color: #9467bd;"></span>
+                                Cf5 - Потери предприятия
+                            </div>
+                            <div class="variable-desc">
+                                Потери предприятия, возникающие при регулировании атмосферных выбросов и оплате штрафов
+                            </div>
+                        </div>
+                        
+                        <div class="variable-item">
+                            <div class="variable-name">
+                                <span class="legend-box" style="background-color: #000000; border: 1px solid #ccc;"></span>
+                                Суммарные потери
+                            </div>
+                            <div class="variable-desc">
+                                Суммарные нормированные потери, рассчитанные с учетом всех факторов
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f1f8e9; border-radius: 6px; border-left: 4px solid #7cb342;">
+                        <p><strong>Пояснение:</strong> График показывает, как различные виды потерь изменяются при увеличении концентрации загрязняющих веществ (C) от 0 до 1. Каждая кривая соответствует определенному виду потерь. Черная пунктирная линия показывает суммарные нормированные потери.</p>
+                        <p><strong>Ось X:</strong> C - концентрация загрязняющих веществ (нормированная от 0 до 1)</p>
+                        <p><strong>Ось Y:</strong> Значение потерь (нормированное от 0 до 1)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/graphicChecker.js"></script>
+</body>
+</html>
