@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Диаграммы потерь от загрязнения атмосферы</title>
+    <title>Диаграммы характеристик</title>
     <link href="/static/css/style.css" rel="stylesheet">
     <style>
         .diagrams-section {
@@ -17,7 +17,7 @@
         .page-title {
             color: #2c3e50;
             margin-bottom: 10px;
-            border-bottom: 2px solid #9c27b0;
+            border-bottom: 2px solid rgb(182, 218, 251);
             padding-bottom: 10px;
         }
         
@@ -39,7 +39,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-top: 4px solid #9c27b0;
+            border-top: 4px solid rgb(182, 218, 251);
             transition: transform 0.3s ease;
         }
         
@@ -103,7 +103,7 @@
         }
         
         .btn-back {
-            background-color: #9c27b0;
+            background-color: rgb(134, 190, 243);
             color: white;
             padding: 10px 20px;
             border: none;
@@ -114,7 +114,7 @@
         }
         
         .btn-back:hover {
-            background-color: #7b1fa2;
+            background-color: rgb(134, 190, 243);
         }
         
         .legend-info {
@@ -141,14 +141,14 @@
         .diagram-explanation {
             margin-top: 30px;
             padding: 20px;
-            background-color: #f3e5f5;
+            background-color: rgba(213, 233, 253, 0.47);
             border-radius: 8px;
-            border-left: 4px solid #9c27b0;
+            border-left: 4px solid rgb(134, 190, 243);
         }
         
         .diagram-explanation h3 {
             margin-top: 0;
-            color: #7b1fa2;
+            color: rgb(111, 179, 243);
         }
         
         .variable-info {
@@ -167,7 +167,7 @@
         
         .var-name {
             font-weight: bold;
-            color: #9c27b0;
+            color:rgb(134, 190, 243);
         }
         
         @media (max-width: 1200px) {
@@ -195,7 +195,7 @@
                 <a class="nav-link" href="/">Параметры модели</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/graphic">График потерь</a>
+                <a class="nav-link" href="/graphic">График характеристик</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="/diagrams">Диаграммы</a>
@@ -209,17 +209,17 @@
     <div class="all">
         <div class="container">
             <div class="diagrams-section">
-                <h2 class="page-title">Диаграммы потерь от загрязнения атмосферы</h2>
-                <p class="page-subtitle">Сравнение потерь при различных концентрациях загрязняющих веществ</p>
+                <h2 class="page-title">Диаграммы характеристик</h2>
+                <p class="page-subtitle">Сравнение характеристик при различных концентрациях загрязняющих веществ</p>
                 
                 <div class="legend-info">
                     <div class="legend-item">
                         <div class="legend-color" style="background-color: red;"></div>
-                        <span>Начальные потери (при C=0)</span>
+                        <span>Начальные условия (при C=0)</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background-color: blue;"></div>
-                        <span>Текущие потери</span>
+                        <span>Текущие значения</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background-color: green; border: 1px dashed #000;"></div>
@@ -231,7 +231,7 @@
                     <!-- Диаграммы будут загружены здесь динамически -->
                     <div class="diagram-item">
                         <h3>Начальный момент (C = 0)</h3>
-                        <p class="diagram-description">Потери при нулевой концентрации загрязняющих веществ</p>
+                        <p class="diagram-description">Характеристики при нулевой концентрации загрязняющих веществ</p>
                         <div class="image-container">
                             <img src="/static/images/diagram_eco.png" class="diagram-img" 
                                  onerror="this.style.display='none'" id="diagram1">
@@ -240,7 +240,7 @@
                     
                     <div class="diagram-item">
                         <h3>1 четверть концентрации (C = 0.25)</h3>
-                        <p class="diagram-description">Потери при концентрации 25% от максимальной</p>
+                        <p class="diagram-description">Характеристики при концентрации 25% от максимальной</p>
                         <div class="image-container">
                             <img src="/static/images/diagram_eco2.png" class="diagram-img" 
                                  onerror="this.style.display='none'" id="diagram2">
@@ -249,7 +249,7 @@
                     
                     <div class="diagram-item">
                         <h3>2 четверть концентрации (C = 0.5)</h3>
-                        <p class="diagram-description">Потери при концентрации 50% от максимальной</p>
+                        <p class="diagram-description">Характеристики при концентрации 50% от максимальной</p>
                         <div class="image-container">
                             <img src="/static/images/diagram_eco3.png" class="diagram-img" 
                                  onerror="this.style.display='none'" id="diagram3">
@@ -258,7 +258,7 @@
                     
                     <div class="diagram-item">
                         <h3>3 четверть концентрации (C = 0.75)</h3>
-                        <p class="diagram-description">Потери при концентрации 75% от максимальной</p>
+                        <p class="diagram-description">Характеристики при концентрации 75% от максимальной</p>
                         <div class="image-container">
                             <img src="/static/images/diagram_eco4.png" class="diagram-img" 
                                  onerror="this.style.display='none'" id="diagram4">
@@ -267,7 +267,7 @@
                     
                     <div class="diagram-item">
                         <h3>Конечный момент (C = 1.0)</h3>
-                        <p class="diagram-description">Потери при максимальной концентрации загрязняющих веществ</p>
+                        <p class="diagram-description">Характеристики при максимальной концентрации загрязняющих веществ</p>
                         <div class="image-container">
                             <img src="/static/images/diagram_eco5.png" class="diagram-img" 
                                  onerror="this.style.display='none'" id="diagram5">
@@ -277,7 +277,7 @@
                 
                 <div class="diagram-explanation">
                     <h3>Как читать диаграммы:</h3>
-                    <p>Каждая диаграмма показывает состояние системы при определенной концентрации загрязняющих веществ (C). На диаграмме отображены 5 видов потерь (Cf1-Cf5):</p>
+                    <p>Каждая диаграмма показывает состояние системы при определенной концентрации загрязняющих веществ (C). На диаграмме отображены 5 видов характеристик (Cf1-Cf5):</p>
                     
                     <div class="variable-info">
                         <div class="variable-info-item">
@@ -302,8 +302,8 @@
                         </div>
                     </div>
                     
-                    <p style="margin-top: 15px;"><strong>Красная линия</strong> показывает начальные потери (при C=0), <strong>синяя линия</strong> - потери при текущей концентрации, <strong>зеленая пунктирная линия</strong> - предельные допустимые значения. Чем дальше синяя линия от центра, тем больше потери.</p>
-                    <p><strong>Центр диаграммы (0)</strong> - минимальные потери, <strong>край диаграммы (1)</strong> - максимальные потери.</p>
+                    <p style="margin-top: 15px;"><strong>Красная линия</strong> показывает начальные условия (при C=0), <strong>синяя линия</strong> - значения при текущей концентрации, <strong>зеленая пунктирная линия</strong> - предельные допустимые значения.</p>
+                    
                 </div>
             </div>
         </div>

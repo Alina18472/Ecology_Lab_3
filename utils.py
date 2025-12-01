@@ -44,7 +44,7 @@ def get_equations_from_inputs(ui):
     for func_num in range(1, 13):  # от f1 до f12
         params = []
         # Каждая функция имеет 5 коэффициентов: a, b, c, d, e
-        # для полинома a*Z⁴ + b*Z³ + c*Z² + d*Z + e
+    
         for param_num in range(1, 6):  # коэффициенты a, b, c, d, e
             try:
                 # Ищем элемент с id "equations-{func_num}-{param_num}"

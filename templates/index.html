@@ -25,7 +25,8 @@
             gap: 4px;
             margin-bottom: 4px;
             white-space: nowrap;
-            font-size: 13px;
+            font-size: 18px;
+            min-height:60px;
         }
 
         .faks-input, .equation-input {
@@ -33,61 +34,7 @@
             padding: 2px;
             margin: 0;
             text-align: center;
-            font-size: 12px;
-        }
-
-        .u-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .u-header-row, .u-row {
-            display: flex;
-            align-items: center;
-            padding: 6px 0;
-        }
-        .u-header-row {
-            font-weight: bold;
-            background-color: #f0f0f0;
-        }
-        .u-col {
-            flex: 1;
-            text-align: center;
-        }
-        .u-col.label {
-            flex: 2;
-            text-align: left;
-            padding-left: 10px;
-        }
-        .u-row input {
-            width: 60px;
-            padding: 4px;
-            margin: 0 5px;
-            text-align: center;
-            font-size: 14px;
-        }
-        .ulabel {
-            flex: 2;
-            text-align: left;
-            padding-left: 10px;
-        }
-
-        .equations-container {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: auto; 
-            padding: 5px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-        }
-
-        .characteristics-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 5px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            font-size: 16px;
         }
 
         .compact-initial-container {
@@ -170,6 +117,7 @@
         .button-group {
             display: flex;
             gap: 10px;
+            margin-bottom: 10px;
         }
 
         .btn-calculate,
@@ -209,9 +157,35 @@
         }
         
         .faks-description {
-            font-size: 11px;
+            font-size: 16px;
             color: #666;
             margin-left: 5px;
+        }
+        
+        .time-control {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .sub, .sup {
+            font-size: 10px;
+            position: relative;
+            line-height: 0;
+        }
+        
+        .sub {
+            bottom: -0.25em;
+        }
+        
+        .sup {
+            top: -0.5em;
+        }
+        .line-and-buttons{
+            display:  flex;
+            flex-direction:row;
+            gap:10px;
+            margin-top:1px;
         }
     </style>
 </head>
@@ -223,7 +197,7 @@
             <a class="nav-link active" href="/">Параметры модели</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/graphic">График потерь</a>
+            <a class="nav-link" href="/graphic">График характеристик</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/diagrams">Диаграммы</a>
@@ -235,21 +209,35 @@
 </header>
 <div class="all">
 <div class="container">
-    <h4 style="color: #2c3e50; margin-bottom: 20px;">Модель потерь от загрязнения атмосферы промышленностью и автотранспортом</h4>
+    <h4 style="color: #2c3e50; margin-bottom: 20px; font-size:22px;">Экология</h4>
     
     <div class="top-row">
         <div class="half-width-col">
-            <div class="section-title">Внешние возмущения (14 функций)</div>
-            <div class="characteristics-container">
+            <div class="section-title">Возмущения</div>
+            <div class="characteristics-container" style="flex: 1; overflow-y: auto; padding: 5px; border: 1px solid #ccc; background-color: #fff;">
                 {% for x in faks %}
                 <div class="block-function">
-                    <span>{{ loop.index }}. {{ x.split(' - ')[0] }} = </span>
+                    <span >{{ loop.index }}. {{ x.split(' - ')[0] }} = </span>
                     <input class="faks-input" id="faks-{{ loop.index }}-1" type="text" placeholder="a" />
-                    <span>t³ + </span>
+                    {% if loop.index <= 6 %}
+                    <!-- x₁-x₆: зависят от времени t -->
+                    <span>t<span class="sup">3</span> + </span>
+                    {% else %}
+                    <!-- x₇-x₁₄: зависят от концентрации C -->
+                    <span>C<span class="sup">3</span> + </span>
+                    {% endif %}
                     <input class="faks-input" id="faks-{{ loop.index }}-2" type="text" placeholder="b" />
-                    <span>t² + </span>
+                    {% if loop.index <= 6 %}
+                    <span>t<span class="sup">2</span> + </span>
+                    {% else %}
+                    <span>C<span class="sup">2</span> + </span>
+                    {% endif %}
                     <input class="faks-input" id="faks-{{ loop.index }}-3" type="text" placeholder="c" />
+                    {% if loop.index <= 6 %}
                     <span>t + </span>
+                    {% else %}
+                    <span>C + </span>
+                    {% endif %}
                     <input class="faks-input" id="faks-{{ loop.index }}-4" type="text" placeholder="d" />
                     <span class="faks-description">{{ x.split(' - ')[1] if ' - ' in x else '' }}</span>
                 </div>
@@ -258,19 +246,44 @@
         </div>
 
         <div class="half-width-col">
-            <div class="section-title">Внутренние функции модели (12 функций)</div>
-            <div class="equations-container">
+            <div class="section-title">Внутренние функции модели</div>
+            <div class="equations-container" style="flex: 1; overflow-y: auto; padding: 5px; border: 1px solid #ccc; background-color: #fff;">
                 {% for x in equations %}
                 <div class="block-function">
-                    <span>{{ loop.index }}. {{ x.split(' - ')[0] }} = </span>
+                    {% if loop.index == 1 %}
+                    <span>1. f<span class="sub">1</span>(Cf<span class="sub">3</span>) = </span>
+                    {% elif loop.index == 2 %}
+                    <span>2. f<span class="sub">2</span>(Cf<span class="sub">4</span>) = </span>
+                    {% elif loop.index == 3 %}
+                    <span>3. f<span class="sub">3</span>(Cf<span class="sub">5</span>) = </span>
+                    {% elif loop.index == 4 %}
+                    <span>4. f<span class="sub">4</span>(Cf<span class="sub">3</span>) = </span>
+                    {% elif loop.index == 5 %}
+                    <span>5. f<span class="sub">5</span>(Cf<span class="sub">4</span>) = </span>
+                    {% elif loop.index == 6 %}
+                    <span>6. f<span class="sub">6</span>(Cf<span class="sub">5</span>) = </span>
+                    {% elif loop.index == 7 %}
+                    <span>7. f<span class="sub">7</span>(Cf<span class="sub">5</span>) = </span>
+                    {% elif loop.index == 8 %}
+                    <span>8. f<span class="sub">8</span>(Cf<span class="sub">1</span>) = </span>
+                    {% elif loop.index == 9 %}
+                    <span>9. f<span class="sub">9</span>(Cf<span class="sub">2</span>) = </span>
+                    {% elif loop.index == 10 %}
+                    <span>10. f<span class="sub">10</span>(Cf<span class="sub">3</span>) = </span>
+                    {% elif loop.index == 11 %}
+                    <span>11. f<span class="sub">11</span>(Cf<span class="sub">5</span>) = </span>
+                    {% elif loop.index == 12 %}
+                    <span>12. f<span class="sub">12</span>(Cf<span class="sub">1</span>) = </span>
+                    {% endif %}
+                    
                     <input class="equation-input" id="equations-{{ loop.index }}-1" type="text" placeholder="a" />
-                    <span>Z⁴ + </span>
+                    <span>Cf<span class="sub">4</span> + </span>
                     <input class="equation-input" id="equations-{{ loop.index }}-2" type="text" placeholder="b" />
-                    <span>Z³ + </span>
+                    <span>Cf<span class="sub">3</span> + </span>
                     <input class="equation-input" id="equations-{{ loop.index }}-3" type="text" placeholder="c" />
-                    <span>Z² + </span>
+                    <span>Cf<span class="sub">2</span> + </span>
                     <input class="equation-input" id="equations-{{ loop.index }}-4" type="text" placeholder="d" />
-                    <span>Z + </span>
+                    <span>Cf + </span>
                     <input class="equation-input" id="equations-{{ loop.index }}-5" type="text" placeholder="e" />
                     <span class="faks-description">{{ x.split(' - ')[1] if ' - ' in x else '' }}</span>
                 </div>
@@ -280,17 +293,17 @@
     </div>
 
     <div class="compact-initial-container">
-        <div class="section-title">Начальные условия и пределы потерь</div>
+        <div class="section-title">Начальные условия и пределы</div>
         <div class="compact-initial-header">
-            <div class="label-col">Вид потерь</div>
-            <div class="value-col">Начальное значение</div>
-            <div class="limit-col">Предельное значение</div>
+            <div class="label-col">Характеристики</div>
+            <div class="value-col">Начальное условие</div>
+            <div class="limit-col">Предел</div>
         </div>
 
         {% for i in range(1,6) %}
         <div class="compact-initial-row">
             <div class="label-col">
-                <span>Cf{{ i }}</span>
+               
                 <span class="param-label">{{ initial_equations[i-1] if initial_equations and i-1 < initial_equations|length else '' }}</span>
             </div>
             <div class="value-col">
@@ -313,18 +326,31 @@
 
     <div class="control-panel-light">
         <h5>Управление расчетами</h5>
+        <div class="line-and-buttons">
         <div class="status-line">
             <span>Статус:</span>
             <input type="text" readonly id="status-input" placeholder="Готов к расчетам" />
-            <div class="button-group">
-                <button class="btn-calculate" onclick="process()">Вычислить</button>
-                <button class="btn-refresh" onclick="refill()">Заполнить случайно</button>
-                <button class="btn-refresh" onclick="clearAll()">Очистить</button>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-calculate" onclick="process()">Вычислить</button>
+            <button class="btn-refresh" onclick="refill()">Заполнить случайно</button>
+            <button class="btn-refresh" onclick="clearAll()">Очистить</button>
+        </div>
+    </div>
+        
+        <div class="time-control">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: 500; min-width: 100px;">Время t (для x₁-x₆):</span>
+                <input type="number" id="time-value" value="0.0" step="0.25" 
+                       style="width: 80px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <span style="font-size: 12px; color: #666;">
+                    (t ∈ {0, 0.25, 0.5, 0.75, 1})
+                </span>
             </div>
         </div>
-        <div style="margin-top: 10px; font-size: 12px; color: #666;">
-            <p><strong>Примечание:</strong> Для возмущений x1-x6 (зависящих от времени) используйте коэффициент d как постоянное значение. Для x7-x14 (зависящих от концентрации) все коэффициенты a,b,c,d используются в полиноме a*C³ + b*C² + c*C + d.</p>
-        </div>
+        
+        
     </div>
 </div>
 </div>

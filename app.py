@@ -1,5 +1,3 @@
-
-#app.py
 from flask import Flask, render_template, request, jsonify
 import logging
 import os
@@ -16,20 +14,20 @@ def main():
                          initial_equations=u_list,
                          # 14 возмущений (6 зависят от времени, 8 от концентрации)
                          faks=[
-                             "x1(t) - Износ оборудования",
-                             "x2(t) - Кредитные ресурсы", 
-                             "x3(t) - Иностранные инвесторы",
-                             "x4(t) - Спрос на продукцию",
-                             "x5(t) - Сложность найма",
-                             "x6(t) - Деловая репутация",
-                             "x7(C) - Уровень смога",
-                             "x8(C) - Задымленность от пожаров",
-                             "x9(C) - Летний антициклон",
-                             "x10(C) - Зимний антициклон",
-                             "x11(C) - Загруженность дорог",
-                             "x12(C) - Крупные предприятия",
-                             "x13(C) - Эпидемиологическая ситуация",
-                             "x14(C) - Санкции"
+                             "x₁(t) - Износ оборудования",
+                             "x₂(t) - Кредитные ресурсы", 
+                             "x₃(t) - Иностранные инвесторы",
+                             "x₄(t) - Спрос на продукцию",
+                             "x₅(t) - Сложность найма",
+                             "x₆(t) - Деловая репутация",
+                             "x₇(C) - Уровень смога",
+                             "x₈(C) - Задымленность от пожаров",
+                             "x₉(C) - Летний антициклон",
+                             "x₁₀(C) - Зимний антициклон",
+                             "x₁₁(C) - Загруженность дорог",
+                             "x₁₂(C) - Крупные предприятия",
+                             "x₁₃(C) - Эпидемиологическая ситуация",
+                             "x₁₄(C) - Санкции"
                          ],
                          # 12 внутренних функций
                          equations=[
@@ -55,8 +53,19 @@ def get_initial_equations():
 def draw_graphics():
     try:
         data = request.get_json()
-        process(data["initial_equations"], data["faks"], data["equations"], data["restrictions"])
-        return jsonify({"status": "Выполнено"})
+        
+        # Получаем время из запроса (по умолчанию 0.0)
+        time_value = data.get("time_value", "0.0")
+        
+        process(
+            data["initial_equations"], 
+            data["faks"], 
+            data["equations"], 
+            data["restrictions"],
+            time_value
+        )
+        
+        return jsonify({"status": "Выполнено", "time_used": time_value})
     except Exception as e:
         logging.error(f"Error in draw_graphics: {e}")
         return jsonify({"status": "Ошибка"})

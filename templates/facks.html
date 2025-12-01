@@ -17,7 +17,7 @@
         .page-title {
             color: #2c3e50;
             margin-bottom: 10px;
-            border-bottom: 2px solid #e74c3c;
+            border-bottom: 2px solid rgb(111, 179, 243);
             padding-bottom: 10px;
         }
         
@@ -59,7 +59,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            border-top: 4px solid #e74c3c;
+            border-top: 4px solidrgb(111, 179, 243);
         }
         
         .disturbance-type h3 {
@@ -87,7 +87,7 @@
         
         .disturbance-symbol {
             font-weight: bold;
-            color: #e74c3c;
+            color: rgb(111, 179, 243);
             min-width: 50px;
             font-family: monospace;
         }
@@ -119,7 +119,7 @@
         }
         
         .btn-back {
-            background-color: #e74c3c;
+            background-color: rgb(111, 179, 243);
             color: white;
             padding: 10px 20px;
             border: none;
@@ -130,15 +130,15 @@
         }
         
         .btn-back:hover {
-            background-color: #c0392b;
+            background-color: rgb(111, 179, 243);
         }
         
         .info-box {
-            background-color: #fff8e1;
+            background-color: rgba(213, 233, 253, 0.47);
             padding: 15px;
             border-radius: 6px;
             margin: 20px 0;
-            border-left: 4px solid #ffb300;
+            border-left: 4px solid rgb(111, 179, 243);
         }
         
         .legend-item {
@@ -165,7 +165,7 @@
                 <a class="nav-link" href="/">Параметры модели</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/graphic">График потерь</a>
+                <a class="nav-link" href="/graphic">График характеристик</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/diagrams">Диаграммы</a>
@@ -183,7 +183,7 @@
                 <p class="page-subtitle">Графики внешних факторов, влияющих на потери от загрязнения атмосферы</p>
                 
                 <div class="info-box">
-                    <p><strong>Внимание:</strong> В модели используются два типа возмущений:</p>
+                    <p>В модели используются два типа возмущений:</p>
                     <div style="margin-top: 10px;">
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: #1f77b4;"></span>
@@ -315,12 +315,11 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top: 30px; padding: 20px; background-color: #e8f5e9; border-radius: 8px; border-left: 4px solid #4caf50;">
-                        <h3 style="margin-top: 0; color: #2e7d32;">Как читать график:</h3>
+                    <div style="margin-top: 30px; padding: 20px; background-color: rgba(213, 233, 253, 0.47); border-radius: 8px; border-left: 4px solid rgb(111, 179, 243);">
+                        <h3 style="margin-top: 0; color:rgb(111, 179, 243);">Как читать график:</h3>
                         <p><strong>Верхняя часть:</strong> Показывает постоянные значения возмущений x1-x6 (горизонтальные линии). Высота линии соответствует значению возмущения.</p>
                         <p><strong>Нижняя часть:</strong> Покажает, как возмущения x7-x14 изменяются в зависимости от концентрации загрязняющих веществ (C). Кривые показывают значение возмущения при разных C.</p>
-                        <p><strong>Ось X (нижний график):</strong> C - концентрация загрязняющих веществ (0-1)</p>
-                        <p><strong>Ось Y:</strong> Значение возмущения (0-10, относительные единицы)</p>
+                        
                     </div>
                 </div>
             </div>

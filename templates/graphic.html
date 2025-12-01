@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>График потерь от загрязнения атмосферы</title>
+    <title>График характеристик</title>
     <link href="/static/css/style.css" rel="stylesheet">
     <style>
         .graphic-section {
@@ -117,6 +117,20 @@
             vertical-align: middle;
             border-radius: 3px;
         }
+        
+        .sub {
+            font-size: 12px;
+            position: relative;
+            bottom: -0.2em;
+        }
+        
+        .graphic-explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border-radius: 6px;
+            border-left: 4px solid #7cb342;
+        }
     </style>
 </head>
 <body>
@@ -127,7 +141,7 @@
                 <a class="nav-link" href="/">Параметры модели</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="/graphic">График потерь</a>
+                <a class="nav-link active" href="/graphic">График характеристик</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/diagrams">Диаграммы</a>
@@ -141,8 +155,8 @@
     <div class="all">
         <div class="container">
             <div class="graphic-section">
-                <h2 class="page-title">График потерь от загрязнения атмосферы</h2>
-                <p class="page-subtitle">Зависимость различных видов потерь от концентрации загрязняющих веществ (C)</p>
+                <h2 class="page-title">График характеристик</h2>
+                <p class="page-subtitle">Зависимость характеристик от концентрации загрязняющих веществ (C)</p>
                 
                 <div class="image-container" id="graphic-container">
                     <!-- График будет загружен здесь -->
@@ -151,12 +165,12 @@
                 </div>
                 
                 <div class="graphic-info">
-                    <h3>Описание переменных:</h3>
+                    <h3>Описание характеристик:</h3>
                     <div class="variables-list">
                         <div class="variable-item">
                             <div class="variable-name">
                                 <span class="legend-box" style="background-color: #1f77b4;"></span>
-                                Cf1 - Потери от заболеваемости населения
+                                Cf<span class="sub">1</span> - Потери от заболеваемости населения
                             </div>
                             <div class="variable-desc">
                                 Потери, связанные с ростом заболеваемости населения из-за загрязнения атмосферы
@@ -166,7 +180,7 @@
                         <div class="variable-item">
                             <div class="variable-name">
                                 <span class="legend-box" style="background-color: #ff7f0e;"></span>
-                                Cf2 - Потери сельского хозяйства
+                                Cf<span class="sub">2</span> - Потери сельского хозяйства
                             </div>
                             <div class="variable-desc">
                                 Потери сельского хозяйства от воздействия атмосферных поллютантов
@@ -176,7 +190,7 @@
                         <div class="variable-item">
                             <div class="variable-name">
                                 <span class="legend-box" style="background-color: #2ca02c;"></span>
-                                Cf3 - Потери от изменения природной среды
+                                Cf<span class="sub">3</span> - Потери от изменения природной среды
                             </div>
                             <div class="variable-desc">
                                 Потери от изменения природной среды и экосистем
@@ -186,7 +200,7 @@
                         <div class="variable-item">
                             <div class="variable-name">
                                 <span class="legend-box" style="background-color: #d62728;"></span>
-                                Cf4 - Потери от ухудшения качества жизни
+                                Cf<span class="sub">4</span> - Потери от ухудшения качества жизни
                             </div>
                             <div class="variable-desc">
                                 Потери из-за ухудшения качества жизни населения в результате систематического воздействия
@@ -196,29 +210,15 @@
                         <div class="variable-item">
                             <div class="variable-name">
                                 <span class="legend-box" style="background-color: #9467bd;"></span>
-                                Cf5 - Потери предприятия
+                                Cf<span class="sub">5</span> - Потери предприятия
                             </div>
                             <div class="variable-desc">
                                 Потери предприятия, возникающие при регулировании атмосферных выбросов и оплате штрафов
                             </div>
                         </div>
-                        
-                        <div class="variable-item">
-                            <div class="variable-name">
-                                <span class="legend-box" style="background-color: #000000; border: 1px solid #ccc;"></span>
-                                Суммарные потери
-                            </div>
-                            <div class="variable-desc">
-                                Суммарные нормированные потери, рассчитанные с учетом всех факторов
-                            </div>
-                        </div>
                     </div>
                     
-                    <div style="margin-top: 20px; padding: 15px; background-color: #f1f8e9; border-radius: 6px; border-left: 4px solid #7cb342;">
-                        <p><strong>Пояснение:</strong> График показывает, как различные виды потерь изменяются при увеличении концентрации загрязняющих веществ (C) от 0 до 1. Каждая кривая соответствует определенному виду потерь. Черная пунктирная линия показывает суммарные нормированные потери.</p>
-                        <p><strong>Ось X:</strong> C - концентрация загрязняющих веществ (нормированная от 0 до 1)</p>
-                        <p><strong>Ось Y:</strong> Значение потерь (нормированное от 0 до 1)</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>

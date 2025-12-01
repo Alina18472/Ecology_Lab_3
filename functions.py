@@ -1,11 +1,12 @@
 #functions.py
 import numpy as np
 
-def pend(x, C, faks, f, xm):
+def pend(x, C, faks, f, xm, t=0.0):
     """
     Система дифференциальных уравнений для модели потерь от загрязнения атмосферы
     x = [Cf1, Cf2, Cf3, Cf4, Cf5] - потери (нормированные от 0 до 1)
     C - концентрация загрязняющих веществ (нормированная от 0 до 1)
+    t - время (для возмущений x1-x6)
     faks - матрица коэффициентов возмущений [14 x 4]
     f - матрица коэффициентов внутренних функций [12 x 5]
     xm - масштабирующие коэффициенты (максимальные значения)
@@ -16,55 +17,77 @@ def pend(x, C, faks, f, xm):
     eps = 1e-4
     x_safe = np.clip(x, eps, 1.0 - eps)
     
-    # === ВОЗМУЩЕНИЯ ===
-    # Возмущения, зависящие от времени (первые 6) - константы на интервале
-    # Используем свободный член (params[3]) как постоянное значение
-    x1 = faks[0][3] if len(faks[0]) > 3 else 0.0
-    x2 = faks[1][3] if len(faks[1]) > 3 else 0.0
-    x3 = faks[2][3] if len(faks[2]) > 3 else 0.0
-    x4 = faks[3][3] if len(faks[3]) > 3 else 0.0
-    x5 = faks[4][3] if len(faks[4]) > 3 else 0.0
-    x6 = faks[5][3] if len(faks[5]) > 3 else 0.0
+    # === ВОЗМУЩЕНИЯ x1-x6 (зависят от времени t) ===
+    # Используем полином 3-й степени от времени: a*t³ + b*t² + c*t + d
+    if len(faks) > 0:
+        x1 = fx_poly3(t, faks[0])
+    else:
+        x1 = 0.0
     
-    # Возмущения, зависящие от концентрации C (последние 8)
-    # Используем полином 3-й степени: a*C^3 + b*C^2 + c*C + d
+    if len(faks) > 1:
+        x2 = fx_poly3(t, faks[1])
+    else:
+        x2 = 0.0
+    
+    if len(faks) > 2:
+        x3 = fx_poly3(t, faks[2])
+    else:
+        x3 = 0.0
+    
+    if len(faks) > 3:
+        x4 = fx_poly3(t, faks[3])
+    else:
+        x4 = 0.0
+    
+    if len(faks) > 4:
+        x5 = fx_poly3(t, faks[4])
+    else:
+        x5 = 0.0
+    
+    if len(faks) > 5:
+        x6 = fx_poly3(t, faks[5])
+    else:
+        x6 = 0.0
+    
+    # === ВОЗМУЩЕНИЯ x7-x14 (зависят от концентрации C) ===
+    # Используем полином 3-й степени от концентрации: a*C³ + b*C² + c*C + d
     if len(faks) > 6:
-        x7 = fx_poly3(C, faks[6]) if len(faks[6]) >= 4 else 0.0
+        x7 = fx_poly3(C, faks[6])
     else:
         x7 = 0.0
     
     if len(faks) > 7:
-        x8 = fx_poly3(C, faks[7]) if len(faks[7]) >= 4 else 0.0
+        x8 = fx_poly3(C, faks[7])
     else:
         x8 = 0.0
     
     if len(faks) > 8:
-        x9 = fx_poly3(C, faks[8]) if len(faks[8]) >= 4 else 0.0
+        x9 = fx_poly3(C, faks[8])
     else:
         x9 = 0.0
     
     if len(faks) > 9:
-        x10 = fx_poly3(C, faks[9]) if len(faks[9]) >= 4 else 0.0
+        x10 = fx_poly3(C, faks[9])
     else:
         x10 = 0.0
     
     if len(faks) > 10:
-        x11 = fx_poly3(C, faks[10]) if len(faks[10]) >= 4 else 0.0
+        x11 = fx_poly3(C, faks[10])
     else:
         x11 = 0.0
     
     if len(faks) > 11:
-        x12 = fx_poly3(C, faks[11]) if len(faks[11]) >= 4 else 0.0
+        x12 = fx_poly3(C, faks[11])
     else:
         x12 = 0.0
     
     if len(faks) > 12:
-        x13 = fx_poly3(C, faks[12]) if len(faks[12]) >= 4 else 0.0
+        x13 = fx_poly3(C, faks[12])
     else:
         x13 = 0.0
     
     if len(faks) > 13:
-        x14 = fx_poly3(C, faks[13]) if len(faks[13]) >= 4 else 0.0
+        x14 = fx_poly3(C, faks[13])
     else:
         x14 = 0.0
     
@@ -367,30 +390,31 @@ def calculate_concentration_factor(C, params):
 # ФУНКЦИИ ДЛЯ ТЕСТИРОВАНИЯ И ВАЛИДАЦИИ
 # ============================================================================
 
-def test_system():
+def test_system_with_time():
     """
-    Тестовая функция для проверки работы системы уравнений
+    Тестовая функция для проверки работы системы уравнений с учетом времени
     """
     # Тестовые значения
     x = [0.5, 0.7, 0.9, 0.4, 0.5]  # Cf1-Cf5
     C = 0.5  # Концентрация
+    t = 0.5  # Время
     
     # Тестовые коэффициенты возмущений (14 x 4)
     faks = [
-        [0, 0, 0, 2.0],     # x1(t)
-        [0, 0, 0, 2.2],     # x2(t)
-        [0, 0, 0, 0.0],     # x3(t)
-        [0, 0, 0, 4.0],     # x4(t)
-        [0, 0, 0, 3.0],     # x5(t)
-        [0, 0, 0, 2.0],     # x6(t)
-        [0, 0, 7, 5],       # x7(C)
-        [0, 0, 0, 0],       # x8(C)
-        [0, 0, 0.6, 3],     # x9(C)
-        [0, 0, 0.7, 4],     # x10(C)
-        [0, 0, 3, 5],       # x11(C)
-        [0, 0, 3.2, 3],     # x12(C)
-        [0, 0, 3.3, 4],     # x13(C)
-        [0, 0, 2, 5]        # x14(C)
+        [0.1, -0.2, 0.5, 2.0],     # x1(t) = 0.1t³ - 0.2t² + 0.5t + 2.0
+        [-0.1, 0.3, -0.2, 2.2],    # x2(t) = -0.1t³ + 0.3t² - 0.2t + 2.2
+        [0.0, 0.0, 0.0, 0.0],      # x3(t) = 0
+        [0.2, -0.1, 1.0, 4.0],     # x4(t) = 0.2t³ - 0.1t² + 1.0t + 4.0
+        [-0.1, 0.2, -0.3, 3.0],    # x5(t) = -0.1t³ + 0.2t² - 0.3t + 3.0
+        [0.05, -0.05, 0.1, 2.0],   # x6(t) = 0.05t³ - 0.05t² + 0.1t + 2.0
+        [0, 0, 7, 5],              # x7(C) = 7C + 5
+        [0, 0, 0, 0],              # x8(C) = 0
+        [0, 0, 0.6, 3],            # x9(C) = 0.6C + 3
+        [0, 0, 0.7, 4],            # x10(C) = 0.7C + 4
+        [0, 0, 3, 5],              # x11(C) = 3C + 5
+        [0, 0, 3.2, 3],            # x12(C) = 3.2C + 3
+        [0, 0, 3.3, 4],            # x13(C) = 3.3C + 4
+        [0, 0, 2, 5]               # x14(C) = 2C + 5
     ]
     
     # Тестовые коэффициенты внутренних функций (12 x 5)
@@ -403,11 +427,19 @@ def test_system():
     xm = [1.0, 1.0, 1.0, 1.0, 1.0]
     
     # Расчет производных
-    derivatives = pend(x, C, faks, f, xm)
+    derivatives = pend(x, C, faks, f, xm, t)
     
-    print("Тест системы уравнений:")
+    print("Тест системы уравнений с временем:")
     print(f"Входные значения Cf: {x}")
     print(f"Концентрация C: {C}")
+    print(f"Время t: {t}")
+    print(f"x1(t) при t={t}: {fx_poly3(t, faks[0]):.4f}")
+    print(f"x2(t) при t={t}: {fx_poly3(t, faks[1]):.4f}")
+    print(f"x3(t) при t={t}: {fx_poly3(t, faks[2]):.4f}")
+    print(f"x4(t) при t={t}: {fx_poly3(t, faks[3]):.4f}")
+    print(f"x5(t) при t={t}: {fx_poly3(t, faks[4]):.4f}")
+    print(f"x6(t) при t={t}: {fx_poly3(t, faks[5]):.4f}")
+    print(f"x7(C) при C={C}: {fx_poly3(C, faks[6]):.4f}")
     print(f"Производные dCf/dC: {derivatives}")
     
     return derivatives
@@ -415,4 +447,4 @@ def test_system():
 
 if __name__ == "__main__":
     # Запуск теста при прямом выполнении файла
-    test_system()
+    test_system_with_time()
