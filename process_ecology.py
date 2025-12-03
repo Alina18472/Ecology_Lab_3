@@ -1,3 +1,4 @@
+# process_ecology.py - чистая версия без тестовых данных
 import matplotlib
 matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
@@ -5,12 +6,11 @@ import numpy as np
 from scipy.integrate import odeint
 import logging
 
-from functions import pend, calculate_total_loss
+from functions import pend, calculate_total_loss, fx_linear  # ИМПОРТИРУЕМ fx_linear
 from radar_diagram import RadarDiagram
 
 data_sol = []
 logger = logging.getLogger(__name__)
-
 
 def fill_diagrams(data, initial_equations, restrictions):
     """
@@ -136,54 +136,65 @@ def create_graphic(C, data):
 def cast_to_float(initial_equations, faks, equations, restrictions):
     """
     Преобразование всех входных данных в float
+    ВАЖНО: equations (параметры внутренних функций) тоже преобразуются!
     """
+    # Преобразуем начальные условия
     for i in range(len(initial_equations)):
         initial_equations[i] = float(initial_equations[i])
 
+    # Преобразуем коэффициенты возмущений
     for i in range(len(faks)):
         for j in range(len(faks[i])):
             faks[i][j] = float(faks[i][j])
 
+    # Преобразуем параметры внутренних функций (ВАЖНО!)
     for i in range(len(equations)):
         for j in range(len(equations[i])):
             equations[i][j] = float(equations[i][j])
 
+    # Преобразуем предельные значения
     for i in range(len(restrictions)):
         restrictions[i] = float(restrictions[i])
 
-    return initial_equations, faks, restrictions
+    return initial_equations, faks, equations, restrictions
 
 
 def process(initial_equations, faks, equations, restrictions, time_value=0.0):
     """
     Основная функция обработки данных и создания графиков
     initial_equations - начальные значения Cf [Cf1(0), Cf2(0), Cf3(0), Cf4(0), Cf5(0)]
-    faks - коэффициенты возмущений [14 x 4]
-    equations - коэффициенты внутренних функций [12 x 5]
+    faks - коэффициенты возмущений [14 x 2] - ТОЛЬКО a и b для линейных функций
+    equations - коэффициенты внутренних функций [12 x ...] - ТЕПЕРЬ ИСПОЛЬЗУЕТСЯ!
     restrictions - предельные значения [5]
     time_value - значение времени t для возмущений x1-x6
     """
     global data_sol
 
-    # Преобразование строк в числа
-    initial_equations, faks, restrictions = cast_to_float(initial_equations, faks, equations, restrictions)
+    # Преобразование строк в числа (ВСЕХ параметров!)
+    initial_equations, faks, equations, restrictions = cast_to_float(
+        initial_equations, faks, equations, restrictions
+    )
     time_value = float(time_value)
+    
+    # Логирование полученных параметров для отладки
+    logger.info(f"Параметры внутренних функций получены с интерфейса:")
+    for i, eq_params in enumerate(equations):
+        if eq_params:  # Проверяем, что список не пустой
+            logger.info(f"  f{i+1}: {eq_params}")
     
     # Диапазон концентрации от 0 до 1
     C = np.linspace(0, 1, 100)
     
     # Масштабирующие коэффициенты (максимальные значения)
-    # Из документа: 1/max Cf_i - нормировочные множители
-    xm = [1.0, 1.0, 1.0, 1.0, 1.0]  # По умолчанию 1.0, можно настраивать
+    xm = [1.0, 1.0, 1.0, 1.0, 1.0]  # По умолчанию 1.0
 
     # Решение системы дифференциальных уравнений
-    # Используем концентрацию C как независимую переменную
-    # Передаем время t как дополнительный аргумент
+    # ВАЖНО: передаем equations (параметры внутренних функций) в pend()
     data_sol = odeint(pend, initial_equations, C, args=(faks, equations, xm, time_value))
     
     # Ограничение значений в диапазоне [0, 1]
-    data_sol = np.clip(data_sol, 1e-3, 1.0)
-    
+  
+    data_sol = np.clip(data_sol, 0.0, 1.0) 
     # Создание графиков
     create_graphic(C, data_sol)
     create_disturbances_graphic(C, faks, time_value)  
@@ -195,10 +206,9 @@ def process(initial_equations, faks, equations, restrictions, time_value=0.0):
     logger.info(f"Конечные значения при C=1: {data_sol[-1]}")
     
     # Вычисление значений возмущений в момент времени t
-    from functions import fx_poly3
     logger.info("Значения возмущений x1-x6 в момент времени t=" + str(time_value) + ":")
     for i in range(min(6, len(faks))):
-        value = fx_poly3(time_value, faks[i])
+        value = fx_linear(time_value, faks[i])
         logger.info(f"  x{i+1}(t) = {value:.4f}")
 
 
@@ -216,11 +226,9 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     """
     Создание графиков возмущений
     C - массив концентраций
-    faks - коэффициенты возмущений
+    faks - коэффициенты возмущений [14 x 2] - линейные функции
     time_value - значение времени t для x1-x6
     """
-    from functions import fx_poly3
-    
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 14))
     
     # === ВОЗМУЩЕНИЯ, ЗАВИСЯЩИЕ ОТ ВРЕМЕНИ (ПЕРВЫЕ 6) ===
@@ -237,18 +245,19 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     
     # Для возмущений, зависящих от времени, вычисляем значение в момент времени t
     for i in range(min(6, len(faks))):
-        value = fx_poly3(time_value, faks[i])
-        
-        # Формируем уравнение с буквами a,b,c,d
-        eq_str = " = a·t³ + b·t² + c·t + d"
-        
-        # Рисуем горизонтальную линию
-        line = ax1.axhline(y=value, color=colors_time[i], linewidth=2.5, 
-                          label=f"x{i+1}(t){eq_str}")
-        
-        # Добавляем тонкую подпись на линии (без белого фона)
-        ax1.text(0.5, value, f' x{i+1}', color=colors_time[i], fontsize=9, 
-                va='center', ha='left')
+        if len(faks[i]) >= 2:
+            value = fx_linear(time_value, faks[i])
+            
+            # Формируем уравнение для линейной функции
+            eq_str = " = a·t + b"
+            
+            # Рисуем горизонтальную линию
+            ax1.axhline(y=value, color=colors_time[i], linewidth=2.5, 
+                       label=f"x{i+1}(t){eq_str}")
+            
+            # Добавляем тонкую подпись на линии (без белого фона)
+            ax1.text(0.5, value, f' x{i+1}', color=colors_time[i], fontsize=9, 
+                    va='center', ha='left')
     
     ax1.set_xlim([0, 1])
     ax1.set_ylim([0, 10])
@@ -276,23 +285,23 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     
     # Отрисовка возмущений, зависящих от концентрации
     for i in range(6, min(14, len(faks))):
-        if i < len(faks) and len(faks[i]) > 0:
+        if i < len(faks) and len(faks[i]) >= 2:
             # Вычисляем значения для каждой концентрации C
             curve = []
             for c_val in C:
-                curve.append(fx_poly3(c_val, faks[i]))
+                curve.append(fx_linear(c_val, faks[i]))
             
             curve = np.clip(curve, 0, 10)
             label_idx = i - 6
             if label_idx < len(conc_dependent_labels):
-                # Формируем уравнение для подписи с буквами a,b,c,d
-                eq_str = " = a·C³ + b·C² + c·C + d"
+                # Формируем уравнение для линейной функции
+                eq_str = " = a·C + b"
                 
                 # Рисуем кривую
-                line = ax2.plot(C, curve, color=colors_conc[label_idx], linewidth=2.5, 
-                               label=f"x{i+1}(C){eq_str}")[0]
+                ax2.plot(C, curve, color=colors_conc[label_idx], linewidth=2.5, 
+                        label=f"x{i+1}(C){eq_str}")
                 
-                # Добавляем тонкую подпись на линии (примерно в середине, без белого фона)
+                # Добавляем тонкую подпись на линии
                 mid_idx = len(C) // 2
                 if mid_idx < len(curve):
                     ax2.text(C[mid_idx], curve[mid_idx], f' x{i+1}', 
@@ -313,24 +322,3 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     fig.savefig('./static/images/disturbances_eco.png', bbox_inches='tight', dpi=150)
     plt.close(fig)
 
-
-if __name__ == "__main__":
-    # Тестирование модуля
-    print("Тестирование модуля process_ecology.py с учетом времени")
-    
-    # Получение тестовых данных с временем
-    test_data = get_scenario_data("default", time_value=0.5)
-    
-    print(f"Время t: {test_data['time_value']}")
-    print(f"Начальные значения: {test_data['initial_equations']}")
-    
-    # Тестовый вызов process
-    process(
-        test_data["initial_equations"].copy(),
-        test_data["faks"].copy(),
-        test_data["equations"].copy(),
-        test_data["restrictions"].copy(),
-        test_data["time_value"]
-    )
-    
-    print("Тест завершен. Проверьте папку static/images на наличие созданных графиков.")

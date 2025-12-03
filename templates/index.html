@@ -23,18 +23,21 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             white-space: nowrap;
-            font-size: 18px;
-            min-height:60px;
+            font-size: 16px;
+            min-height: 40px;
+            flex-wrap: wrap;
         }
 
         .faks-input, .equation-input {
-            width: 50px;
+            width: 60px;
             padding: 2px;
-            margin: 0;
+            margin: 0 2px;
             text-align: center;
-            font-size: 16px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
 
         .compact-initial-container {
@@ -82,6 +85,8 @@
             padding: 4px;
             text-align: center;
             font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
 
         .control-panel-light {
@@ -157,9 +162,9 @@
         }
         
         .faks-description {
-            font-size: 16px;
+            font-size: 14px;
             color: #666;
-            margin-left: 5px;
+            margin-left: 8px;
         }
         
         .time-control {
@@ -187,6 +192,25 @@
             gap:10px;
             margin-top:1px;
         }
+        
+        .equation-display {
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+            margin-left: 5px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin: 0 2px;
+        }
+        
+        .input-label {
+            font-size: 11px;
+            color: #666;
+            margin: 0 2px;
+        }
     </style>
 </head>
 <body>
@@ -213,32 +237,30 @@
     
     <div class="top-row">
         <div class="half-width-col">
-            <div class="section-title">Возмущения</div>
+            <div class="section-title">Возмущения (линейные функции)</div>
             <div class="characteristics-container" style="flex: 1; overflow-y: auto; padding: 5px; border: 1px solid #ccc; background-color: #fff;">
                 {% for x in faks %}
                 <div class="block-function">
-                    <span >{{ loop.index }}. {{ x.split(' - ')[0] }} = </span>
-                    <input class="faks-input" id="faks-{{ loop.index }}-1" type="text" placeholder="a" />
+                    <span style="min-width: 50px;">{{ loop.index }}. {{ x.split(' - ')[0] }} = </span>
+                    
+                    <div class="input-group">
+                        <input class="faks-input" id="faks-{{ loop.index }}-1" type="text" placeholder="a" />
+                        <span class="input-label"></span>
+                    </div>
+                    
                     {% if loop.index <= 6 %}
-                    <!-- x₁-x₆: зависят от времени t -->
-                    <span>t<span class="sup">3</span> + </span>
+                    <!-- x₁-x₆: линейные по времени t -->
+                    <span style="margin: 0 2px;">· t + </span>
                     {% else %}
-                    <!-- x₇-x₁₄: зависят от концентрации C -->
-                    <span>C<span class="sup">3</span> + </span>
+                    <!-- x₇-x₁₄: линейные по концентрации C -->
+                    <span style="margin: 0 2px;">· C + </span>
                     {% endif %}
-                    <input class="faks-input" id="faks-{{ loop.index }}-2" type="text" placeholder="b" />
-                    {% if loop.index <= 6 %}
-                    <span>t<span class="sup">2</span> + </span>
-                    {% else %}
-                    <span>C<span class="sup">2</span> + </span>
-                    {% endif %}
-                    <input class="faks-input" id="faks-{{ loop.index }}-3" type="text" placeholder="c" />
-                    {% if loop.index <= 6 %}
-                    <span>t + </span>
-                    {% else %}
-                    <span>C + </span>
-                    {% endif %}
-                    <input class="faks-input" id="faks-{{ loop.index }}-4" type="text" placeholder="d" />
+                    
+                    <div class="input-group">
+                        <input class="faks-input" id="faks-{{ loop.index }}-2" type="text" placeholder="b" />
+                        <span class="input-label"></span>
+                    </div>
+                    
                     <span class="faks-description">{{ x.split(' - ')[1] if ' - ' in x else '' }}</span>
                 </div>
                 {% endfor %}
@@ -248,46 +270,189 @@
         <div class="half-width-col">
             <div class="section-title">Внутренние функции модели</div>
             <div class="equations-container" style="flex: 1; overflow-y: auto; padding: 5px; border: 1px solid #ccc; background-color: #fff;">
-                {% for x in equations %}
+                <!-- f₁(Cf₃) = (0.5 * e^{Cf₃}) / (1 + 0.5 * (e^{Cf₃} - 1)) -->
                 <div class="block-function">
-                    {% if loop.index == 1 %}
-                    <span>1. f<span class="sub">1</span>(Cf<span class="sub">3</span>) = </span>
-                    {% elif loop.index == 2 %}
-                    <span>2. f<span class="sub">2</span>(Cf<span class="sub">4</span>) = </span>
-                    {% elif loop.index == 3 %}
-                    <span>3. f<span class="sub">3</span>(Cf<span class="sub">5</span>) = </span>
-                    {% elif loop.index == 4 %}
-                    <span>4. f<span class="sub">4</span>(Cf<span class="sub">3</span>) = </span>
-                    {% elif loop.index == 5 %}
-                    <span>5. f<span class="sub">5</span>(Cf<span class="sub">4</span>) = </span>
-                    {% elif loop.index == 6 %}
-                    <span>6. f<span class="sub">6</span>(Cf<span class="sub">5</span>) = </span>
-                    {% elif loop.index == 7 %}
-                    <span>7. f<span class="sub">7</span>(Cf<span class="sub">5</span>) = </span>
-                    {% elif loop.index == 8 %}
-                    <span>8. f<span class="sub">8</span>(Cf<span class="sub">1</span>) = </span>
-                    {% elif loop.index == 9 %}
-                    <span>9. f<span class="sub">9</span>(Cf<span class="sub">2</span>) = </span>
-                    {% elif loop.index == 10 %}
-                    <span>10. f<span class="sub">10</span>(Cf<span class="sub">3</span>) = </span>
-                    {% elif loop.index == 11 %}
-                    <span>11. f<span class="sub">11</span>(Cf<span class="sub">5</span>) = </span>
-                    {% elif loop.index == 12 %}
-                    <span>12. f<span class="sub">12</span>(Cf<span class="sub">1</span>) = </span>
-                    {% endif %}
-                    
-                    <input class="equation-input" id="equations-{{ loop.index }}-1" type="text" placeholder="a" />
-                    <span>Cf<span class="sub">4</span> + </span>
-                    <input class="equation-input" id="equations-{{ loop.index }}-2" type="text" placeholder="b" />
-                    <span>Cf<span class="sub">3</span> + </span>
-                    <input class="equation-input" id="equations-{{ loop.index }}-3" type="text" placeholder="c" />
-                    <span>Cf<span class="sub">2</span> + </span>
-                    <input class="equation-input" id="equations-{{ loop.index }}-4" type="text" placeholder="d" />
-                    <span>Cf + </span>
-                    <input class="equation-input" id="equations-{{ loop.index }}-5" type="text" placeholder="e" />
-                    <span class="faks-description">{{ x.split(' - ')[1] if ' - ' in x else '' }}</span>
+                    <span>1. f₁(Cf₃) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-1-1" type="text" placeholder="0.5" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· e^{Cf₃} / (1 + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-1-2" type="text" placeholder="0.5" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· (e^{Cf₃} - 1))</span>
+                    <span class="faks-description">- логистическая</span>
                 </div>
-                {% endfor %}
+                
+                <!-- f₂(Cf₄) = 0.3·Cf₄ + 15 -->
+                <div class="block-function">
+                    <span>2. f₂(Cf₄) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-2-1" type="text" placeholder="0.3" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· Cf₄ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-2-2" type="text" placeholder="15" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- линейная</span>
+                </div>
+                
+                <!-- f₃(Cf₅) = { 0.3 при 0 ≤ Cf₅ < 0.4; 0.5 при Cf₅ ≥ 0.4 } -->
+                <div class="block-function">
+                    <span>3. f₃(Cf₅) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-3-1" type="text" placeholder="0.3" />
+                        <span class="input-label">нижн</span>
+                    </div>
+                    <span> при Cf₅ < </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-3-2" type="text" placeholder="0.4" />
+                        <span class="input-label">порог</span>
+                    </div>
+                    <span>, иначе </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-3-3" type="text" placeholder="0.5" />
+                        <span class="input-label">верхн</span>
+                    </div>
+                    <span class="faks-description">- ступенчатая</span>
+                </div>
+                
+                <!-- f₄(Cf₃) = 0.7·Cf₃ + 11 -->
+                <div class="block-function">
+                    <span>4. f₄(Cf₃) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-4-1" type="text" placeholder="0.7" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· Cf₃ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-4-2" type="text" placeholder="11" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- линейная</span>
+                </div>
+                
+                <!-- f₅(Cf₄) = 0.8·Cf₄ + 9 -->
+                <div class="block-function">
+                    <span>5. f₅(Cf₄) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-5-1" type="text" placeholder="0.8" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· Cf₄ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-5-2" type="text" placeholder="9" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- линейная</span>
+                </div>
+                
+                <!-- f₆(Cf₅) = 0.8 / (Cf₅ + 12) -->
+                <div class="block-function">
+                    <span>6. f₆(Cf₅) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-6-1" type="text" placeholder="0.8" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span> / (Cf₅ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-6-2" type="text" placeholder="12" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>)</span>
+                    <span class="faks-description">- дробная</span>
+                </div>
+                
+                <!-- f₇(Cf₅) = 0.8 / (Cf₅ + 11) -->
+                <div class="block-function">
+                    <span>7. f₇(Cf₅) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-7-1" type="text" placeholder="0.8" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span> / (Cf₅ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-7-2" type="text" placeholder="11" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>)</span>
+                    <span class="faks-description">- дробная</span>
+                </div>
+                
+                <!-- f₈(Cf₁) = 0.7·Cf₁ + 13 -->
+                <div class="block-function">
+                    <span>8. f₈(Cf₁) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-8-1" type="text" placeholder="0.7" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· Cf₁ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-8-2" type="text" placeholder="13" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- линейная</span>
+                </div>
+                
+                <!-- f₉(Cf₂) = 1 / (1 + e^{-Cf₂}) -->
+                <div class="block-function">
+                    <span>9. f₉(Cf₂) = 1 / (1 + e^{-Cf₂})</span>
+                    <span class="faks-description">- логистическая (фикс)</span>
+                </div>
+                
+                <!-- f₁₀(Cf₃) = 0.55·Cf₃ + 13 -->
+                <div class="block-function">
+                    <span>10. f₁₀(Cf₃) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-10-1" type="text" placeholder="0.55" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· Cf₃ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-10-2" type="text" placeholder="13" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- линейная</span>
+                </div>
+                
+                <!-- f₁₁(Cf₅) = 0.55 / (Cf₅ + 12) + 2 -->
+                <div class="block-function">
+                    <span>11. f₁₁(Cf₅) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-11-1" type="text" placeholder="0.55" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span> / (Cf₅ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-11-2" type="text" placeholder="12" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>) + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-11-3" type="text" placeholder="2" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- дробная</span>
+                </div>
+                
+                <!-- f₁₂(Cf₁) = 0.5·Cf₁ + 3 -->
+                <div class="block-function">
+                    <span>12. f₁₂(Cf₁) = </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-12-1" type="text" placeholder="0.5" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span>· Cf₁ + </span>
+                    <div class="input-group">
+                        <input class="equation-input" id="equations-12-2" type="text" placeholder="3" />
+                        <span class="input-label"></span>
+                    </div>
+                    <span class="faks-description">- линейная</span>
+                </div>
             </div>
         </div>
     </div>
@@ -303,7 +468,6 @@
         {% for i in range(1,6) %}
         <div class="compact-initial-row">
             <div class="label-col">
-               
                 <span class="param-label">{{ initial_equations[i-1] if initial_equations and i-1 < initial_equations|length else '' }}</span>
             </div>
             <div class="value-col">
@@ -342,12 +506,13 @@
         <div class="time-control">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-weight: 500; min-width: 100px;">Время t (для x₁-x₆):</span>
-                <input type="number" id="time-value" value="0.0" step="0.25" 
+                <input type="number" id="time-value" value="0.5" step="0.25" 
                        style="width: 80px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px;">
                 <span style="font-size: 12px; color: #666;">
                     (t ∈ {0, 0.25, 0.5, 0.75, 1})
                 </span>
             </div>
+            
         </div>
         
         

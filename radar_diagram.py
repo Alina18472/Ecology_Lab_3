@@ -75,20 +75,41 @@ class RadarDiagram:
         fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(projection='radar'))
         fig.subplots_adjust(top=0.85, bottom=0.05)
 
-        ax.set_ylim(0, 1.0)
-
-        if restrictions is not None:
-            if len(restrictions) != N:
-                raise ValueError(f"Длина restrictions ({len(restrictions)}) не совпадает с числом переменных ({N})")
-            limit_line = restrictions
-        else:
-            limit_line = [1.0] * N
-
-        ax.plot(theta, limit_line, color='green', linewidth=2, linestyle='--', alpha=0.7, label="Предельные значения")
-
+        # НАХОДИМ МАКСИМАЛЬНОЕ ЗНАЧЕНИЕ ДЛЯ КАЖДОЙ ОСИ ОТДЕЛЬНО!
+        # Для каждой оси своя шкала!
+        max_vals = []
+        for i in range(N):
+            axis_max = 1.0  # минимум 1.0 для каждой оси
+            
+            if restrictions is not None and i < len(restrictions):
+                axis_max = max(axis_max, restrictions[i])
+            
+            if i < len(initial_data):
+                axis_max = max(axis_max, initial_data[i])
+            
+            if i < len(current_data):
+                axis_max = max(axis_max, current_data[i])
+            
+            # Добавляем запас 10%
+            axis_max = axis_max * 1.1
+            max_vals.append(axis_max)
+        
+        # Устанавливаем индивидуальные пределы для каждой оси
+        ax.set_ylim(0, max(max_vals))  # общий максимум для визуализации
+        
+        # Предельная линия - ИНДИВИДУАЛЬНЫЕ ПРЕДЕЛЫ ДЛЯ КАЖДОЙ ХАРАКТЕРИСТИКИ
+        if restrictions is not None and len(restrictions) == N:
+            # Рисуем зеленую линию с ИНДИВИДУАЛЬНЫМИ значениями для каждой характеристики
+            ax.plot(theta, restrictions, color='green', linewidth=2, linestyle='--', 
+                    alpha=0.7, label="Предельные значения")
+        
         if show_both_lines:
+            # НАЧАЛЬНЫЕ ДАННЫЕ (красные) - абсолютные значения
             ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные потери")
+            
+            # ТЕКУЩИЕ ДАННЫЕ (синие) - абсолютные значения
             ax.plot(theta, current_data, color='blue', linewidth=2, label="Текущие потери")
+            
             ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.0), fontsize='small')
         else:
             ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные потери")
@@ -97,6 +118,15 @@ class RadarDiagram:
         # Измененные метки для экологической модели
         var_labels = ["Cf1", "Cf2", "Cf3", "Cf4", "Cf5"]
         ax.set_varlabels(var_labels)
+        
+        # Подписи значений на зеленой линии (пределах)
+        if restrictions is not None and len(restrictions) == N:
+            for i in range(N):
+                angle = theta[i]
+                value = restrictions[i]
+                # Добавляем подпись значения предела
+                ax.text(angle, value * 1.02, f'{value:.2f}', 
+                    color='green', fontsize=9, ha='center', va='bottom')
 
         fig.text(0.5, 0.965, title, horizontalalignment='center', color='black', weight='bold', size='large')
         fig.savefig(filename, bbox_inches='tight')
