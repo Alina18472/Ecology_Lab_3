@@ -220,8 +220,6 @@ u_list = [
     "Cf₄ - Потери из-за ухудшения качества жизни населения",
     "Cf₅ - Потери предприятия, возникающие при регулировании атмосферных выбросов и оплате штрафов"
 ]
-
-
 def create_disturbances_graphic(C, faks, time_value=0.0):
     """
     Создание графиков возмущений
@@ -229,7 +227,9 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     faks - коэффициенты возмущений [14 x 2] - линейные функции
     time_value - значение времени t для x1-x6
     """
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 14))
+    # Создаем фигуру с 3 подграфиками (время, концентрация часть 1, концентрация часть 2)
+    fig, axes = plt.subplots(3, 1, figsize=(16, 18))
+    ax1, ax2, ax3 = axes
     
     # === ВОЗМУЩЕНИЯ, ЗАВИСЯЩИЕ ОТ ВРЕМЕНИ (ПЕРВЫЕ 6) ===
     time_dependent_labels = [
@@ -247,20 +247,22 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     for i in range(min(6, len(faks))):
         if len(faks[i]) >= 2:
             value = fx_linear(time_value, faks[i])
+            # БЕЗ нормализации - просто ограничиваем диапазон [0, 1]
+            limited_value = max(0.0, min(1.0, value))
             
             # Формируем уравнение для линейной функции
             eq_str = " = a·t + b"
             
             # Рисуем горизонтальную линию
-            ax1.axhline(y=value, color=colors_time[i], linewidth=2.5, 
+            ax1.axhline(y=limited_value, color=colors_time[i], linewidth=2.5, 
                        label=f"x{i+1}(t){eq_str}")
             
             # Добавляем тонкую подпись на линии (без белого фона)
-            ax1.text(0.5, value, f' x{i+1}', color=colors_time[i], fontsize=9, 
+            ax1.text(0.5, limited_value, f' x{i+1}', color=colors_time[i], fontsize=9, 
                     va='center', ha='left')
     
     ax1.set_xlim([0, 1])
-    ax1.set_ylim([0, 10])
+    ax1.set_ylim([0, 1.0])  # Диапазон [0, 1]
     ax1.set_ylabel("Значение возмущения", fontsize=12, fontweight='bold')
     ax1.set_title(f"Возмущения, зависящие от времени (t = {time_value:.2f})", 
                  fontsize=14, fontweight='bold', pad=10)
@@ -268,57 +270,99 @@ def create_disturbances_graphic(C, faks, time_value=0.0):
     ax1.grid(True, alpha=0.3, linestyle='--')
     ax1.tick_params(axis='both', which='major', labelsize=10)
     
-    # === ВОЗМУЩЕНИЯ, ЗАВИСЯЩИЕ ОТ КОНЦЕНТРАЦИИ (ПОСЛЕДНИЕ 8) ===
-    conc_dependent_labels = [
+    # === ВОЗМУЩЕНИЯ, ЗАВИСЯЩИЕ ОТ КОНЦЕНТРАЦИИ (x₇-x₁₀) ===
+    conc_dependent_labels_1 = [
         "x₇(C) - Повышенный уровень смога",
         "x₈(C) - Высокая задымленность от лесных пожаров",
         "x₉(C) - Продолжительный летний антициклон",
-        "x₁₀(C) - Продолжительный зимний антициклон",
-        "x₁₁(C) - Высокая загруженность автомагистралей",
-        "x₁₂(C) - Наличие крупных промышленных предприятий",
-        "x₁₃(C) - Эпидемиологическая ситуация",
-        "x₁₄(C) - Наличие санкций"
+        "x₁₀(C) - Продолжительный зимний антициклон"
     ]
     
-    colors_conc = ['#e377c2', '#7f7f7f', '#bcbd22', '#17becf', 
-                   '#ff1493', '#00ced1', '#ff7f0e', '#2ca02c']
+    colors_conc_1 = ['#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
     
-    # Отрисовка возмущений, зависящих от концентрации
-    for i in range(6, min(14, len(faks))):
+    # Отрисовка возмущений x7-x10
+    for i in range(6, min(10, len(faks))):
         if i < len(faks) and len(faks[i]) >= 2:
             # Вычисляем значения для каждой концентрации C
             curve = []
             for c_val in C:
-                curve.append(fx_linear(c_val, faks[i]))
+                value = fx_linear(c_val, faks[i])
+                # БЕЗ нормализации - просто ограничиваем диапазон [0, 1]
+                limited_value = max(0.0, min(1.0, value))
+                curve.append(limited_value)
             
-            curve = np.clip(curve, 0, 10)
             label_idx = i - 6
-            if label_idx < len(conc_dependent_labels):
+            if label_idx < len(conc_dependent_labels_1):
                 # Формируем уравнение для линейной функции
                 eq_str = " = a·C + b"
                 
                 # Рисуем кривую
-                ax2.plot(C, curve, color=colors_conc[label_idx], linewidth=2.5, 
+                ax2.plot(C, curve, color=colors_conc_1[label_idx], linewidth=2.5, 
                         label=f"x{i+1}(C){eq_str}")
                 
                 # Добавляем тонкую подпись на линии
                 mid_idx = len(C) // 2
                 if mid_idx < len(curve):
                     ax2.text(C[mid_idx], curve[mid_idx], f' x{i+1}', 
-                            color=colors_conc[label_idx], fontsize=9, 
+                            color=colors_conc_1[label_idx], fontsize=9, 
                             va='center', ha='left')
     
     ax2.set_xlim([0, 1])
-    ax2.set_ylim([0, 10])
-    ax2.set_xlabel("C, концентрация загрязняющих веществ", fontsize=12, fontweight='bold')
+    ax2.set_ylim([0, 1.0])  # Диапазон [0, 1]
     ax2.set_ylabel("Значение возмущения", fontsize=12, fontweight='bold')
-    ax2.set_title("Возмущения, зависящие от концентрации загрязняющих веществ", 
+    ax2.set_title("Возмущения, зависящие от концентрации (x₇-x₁₀)", 
                  fontsize=14, fontweight='bold', pad=10)
     ax2.legend(loc='upper right', fontsize=9, framealpha=0.9)
     ax2.grid(True, alpha=0.3, linestyle='--')
     ax2.tick_params(axis='both', which='major', labelsize=10)
     
+    # === ВОЗМУЩЕНИЯ, ЗАВИСЯЩИЕ ОТ КОНЦЕНТРАЦИИ (x₁₁-x₁₄) ===
+    conc_dependent_labels_2 = [
+        "x₁₁(C) - Высокая загруженность автомагистралей",
+        "x₁₂(C) - Наличие крупных промышленных предприятий",
+        "x₁₃(C) - Эпидемиологическая ситуация",
+        "x₁₄(C) - Наличие санкций"
+    ]
+    
+    colors_conc_2 = ['#ff1493', '#00ced1', '#ff7f0e', '#2ca02c']
+    
+    # Отрисовка возмущений x11-x14
+    for i in range(10, min(14, len(faks))):
+        if i < len(faks) and len(faks[i]) >= 2:
+            # Вычисляем значения для каждой концентрации C
+            curve = []
+            for c_val in C:
+                value = fx_linear(c_val, faks[i])
+                # БЕЗ нормализации - просто ограничиваем диапазон [0, 1]
+                limited_value = max(0.0, min(1.0, value))
+                curve.append(limited_value)
+            
+            label_idx = i - 10
+            if label_idx < len(conc_dependent_labels_2):
+                # Формируем уравнение для линейной функции
+                eq_str = " = a·C + b"
+                
+                # Рисуем кривую
+                ax3.plot(C, curve, color=colors_conc_2[label_idx], linewidth=2.5, 
+                        label=f"x{i+1}(C){eq_str}")
+                
+                # Добавляем тонкую подпись на линии
+                mid_idx = len(C) // 2
+                if mid_idx < len(curve):
+                    ax3.text(C[mid_idx], curve[mid_idx], f' x{i+1}', 
+                            color=colors_conc_2[label_idx], fontsize=9, 
+                            va='center', ha='left')
+    
+    ax3.set_xlim([0, 1])
+    ax3.set_ylim([0, 1.0])  # Диапазон [0, 1]
+    ax3.set_xlabel("C, концентрация загрязняющих веществ", fontsize=12, fontweight='bold')
+    ax3.set_ylabel("Значение возмущения", fontsize=12, fontweight='bold')
+    ax3.set_title("Возмущения, зависящие от концентрации (x₁₁-x₁₄)", 
+                 fontsize=14, fontweight='bold', pad=10)
+    ax3.legend(loc='upper right', fontsize=9, framealpha=0.9)
+    ax3.grid(True, alpha=0.3, linestyle='--')
+    ax3.tick_params(axis='both', which='major', labelsize=10)
+    
     plt.tight_layout()
     fig.savefig('./static/images/disturbances_eco.png', bbox_inches='tight', dpi=150)
     plt.close(fig)
-

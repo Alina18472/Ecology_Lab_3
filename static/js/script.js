@@ -12,25 +12,53 @@ function randomInRange() {
     return value
 }
 
+// === НОВАЯ ФУНКЦИЯ ДЛЯ ХАРАКТЕРИСТИК Cf ===
+function randomForCf() {
+    // Генерация числа в диапазоне (0,1) с преимущественно средними значениями (0.3-0.8)
+    let value
+    const rand = Math.random()
+    
+    if (rand < 0.8) {
+        // 80% случаев: значения 0.3-0.8
+        do {
+            value = Math.round((0.3 + Math.random() * 0.5) * 100) / 100
+        } while (value >= 1 || value <= 0) // дополнительная проверка
+    } else {
+        // 20% случаев: значения 0-0.3 или 0.8-1
+        if (Math.random() < 0.5) {
+            // 0-0.3
+            do {
+                value = Math.round(Math.random() * 0.3 * 100) / 100
+            } while (value <= 0.2)
+        } else {
+            // 0.8-1
+            do {
+                value = Math.round((0.8 + Math.random() * 0.2) * 100) / 100
+            } while (value >= 1)
+        }
+    }
+    return value
+}
+
 function randomTime() {
     const times = [0, 0.25, 0.5, 0.75, 1]
     return times[Math.floor(Math.random() * times.length)]
 }
 
-// === ИСПРАВЛЕННАЯ refill() ===
+// === ОБНОВЛЕННАЯ refill() ===
 function refill() {
     // Заполнение времени
     let timeValue = randomTime()
     document.getElementById("time-value").value = timeValue
     sessionStorage.setItem("time-value", timeValue)
     
-    // Заполнение пределов (0,1) - не включая 0 и 1
+    // Заполнение пределов Cf1-Cf5 (используем randomForCf для характеристик)
     const limits = []
     for (let i=1; i<6; i++) {
-        limits[i-1] = randomInRange()
+        limits[i-1] = randomForCf()
     }
     
-    // Заполнение возмущений (14 x 2) - ВСЕ в диапазоне (0,1)
+    // Заполнение возмущений (14 x 2) - ВСЕ в диапазоне (0,1) - старая рандомизация
     for (let i=1; i<15; i++) {
         // Коэффициент a
         let aValue = randomInRange()
@@ -45,19 +73,19 @@ function refill() {
         if (elB) elB.value = bValue
     }
 
-    // Заполнение начальных условий (0,1) - не включая 0 и 1
+    // Заполнение начальных условий Cf1-Cf5 (используем randomForCf)
     for (let i=1; i<6; i++) {
         const limit = limits[i-1]
         let value
         do {
-            value = randomInRange()
+            value = randomForCf() // используем новую функцию для характеристик
         } while (value >= limit) // Начальное условие должно быть меньше предела
         sessionStorage.setItem("init-eq-" + i, value)
         let el = document.getElementById("init-eq-" + i)
         if (el) el.value = value
     }
 
-    // Заполнение предельных значений
+    // Заполнение предельных значений Cf1-Cf5
     for (let i=1; i<6; i++) {
         const limit = limits[i-1]
         sessionStorage.setItem("restrictions-" + i, limit)
@@ -65,7 +93,7 @@ function refill() {
         if (el) el.value = limit
     }
 
-    // Заполнение внутренних функций - ВСЕ значения в диапазоне (0,1)
+    // Заполнение внутренних функций - ВСЕ значения в диапазоне (0,1) - старая рандомизация
     // f₁: логистическая (2 параметра)
     let eq1_1 = randomInRange()
     let eq1_2 = randomInRange()

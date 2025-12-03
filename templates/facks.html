@@ -59,7 +59,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            border-top: 4px solidrgb(111, 179, 243);
+            border-top: 4px solid rgb(111, 179, 243);
         }
         
         .disturbance-type h3 {
@@ -155,6 +155,30 @@
             vertical-align: middle;
             border-radius: 3px;
         }
+        
+        .graphics-explanation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .graphic-explanation-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-top: 4px solid;
+        }
+        
+        .graphic-explanation-box h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .graphic-1 { border-top-color: #1f77b4; }
+        .graphic-2 { border-top-color: #e377c2; }
+        .graphic-3 { border-top-color: #ff1493; }
     </style>
 </head>
 <body>
@@ -180,19 +204,20 @@
         <div class="container">
             <div class="disturbances-section">
                 <h2 class="page-title">Внешние возмущения и факторы окружающей среды</h2>
-                <p class="page-subtitle">Графики внешних факторов, влияющих на потери от загрязнения атмосферы</p>
+                <p class="page-subtitle">Графики возмущений</p>
                 
                 <div class="info-box">
                     <p>В модели используются два типа возмущений:</p>
                     <div style="margin-top: 10px;">
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: #1f77b4;"></span>
-                            <span><strong>Зависящие от времени (x1-x6):</strong> Постоянные значения на интервале</span>
+                            <span><strong>Зависящие от времени (x₁-x₆):</strong> Постоянные значения на интервале</span>
                         </div>
                         <div class="legend-item">
                             <span class="legend-color" style="background-color: #e377c2;"></span>
-                            <span><strong>Зависящие от концентрации (x7-x14):</strong> Зависят от C</span>
+                            <span><strong>Зависящие от концентрации (x₇-x₁₄)</strong> </span>
                         </div>
+                        
                     </div>
                 </div>
                 
@@ -201,6 +226,8 @@
                     <img src="/static/images/disturbances_eco.png" id="disturbances-image" class="graphic-img"
                          onerror="this.style.display='none'">
                 </div>
+                
+              
                 
                 <div class="disturbances-info">
                     <div class="disturbances-grid">
@@ -317,9 +344,10 @@
                     
                     <div style="margin-top: 30px; padding: 20px; background-color: rgba(213, 233, 253, 0.47); border-radius: 8px; border-left: 4px solid rgb(111, 179, 243);">
                         <h3 style="margin-top: 0; color:rgb(111, 179, 243);">Как читать график:</h3>
-                        <p><strong>Верхняя часть:</strong> Показывает постоянные значения возмущений x1-x6 (горизонтальные линии). Высота линии соответствует значению возмущения.</p>
-                        <p><strong>Нижняя часть:</strong> Покажает, как возмущения x7-x14 изменяются в зависимости от концентрации загрязняющих веществ (C). Кривые показывают значение возмущения при разных C.</p>
-                        
+                        <p><strong>График 1 (верхний):</strong> Показывает постоянные значения возмущений x₁-x₆ (горизонтальные линии). Высота линии соответствует значению возмущения в диапазоне [0, 1].</p>
+                        <p><strong>График 2 (средний):</strong> Показывает, как  значения x₇-x₁₀ изменяются в зависимости от концентрации загрязняющих веществ (C).</p>
+                        <p><strong>График 3 (нижний):</strong> Показывает, как значения x₁₁-x₁₄ реагируют на изменение концентрации C.</p>
+                
                     </div>
                 </div>
             </div>

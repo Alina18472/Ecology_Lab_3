@@ -16,34 +16,40 @@
             width: calc(50% - 5px);
             display: flex;
             flex-direction: column; 
-            height:800px;
+            height: 800px;
         }
 
         .block-function {
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             white-space: nowrap;
             font-size: 16px;
             min-height: 40px;
             flex-wrap: wrap;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
         }
 
         .faks-input, .equation-input {
             width: 60px;
-            padding: 2px;
-            margin: 0 2px;
+            padding: 4px;
+            margin: 3px 2px;
             text-align: center;
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 3px;
+            background: white;
         }
 
         .compact-initial-container {
             margin-top: 20px;
             width: 100%;
         }
+        
         .compact-initial-header {
             display: flex;
             justify-content: space-between;
@@ -51,22 +57,27 @@
             font-weight: bold;
             padding: 8px 0;
             margin-bottom: 8px;
+            border-radius: 4px;
         }
+        
         .compact-initial-header .label-col {
             flex: 2;
             padding-left: 10px;
         }
+        
         .compact-initial-header .value-col,
         .compact-initial-header .limit-col {
             flex: 1;
             text-align: center;
         }
+        
         .compact-initial-row {
             display: flex;
             align-items: center;
-            padding: 4px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #eee;
         }
+        
         .compact-initial-row .label-col {
             flex: 2;
             display: flex;
@@ -74,129 +85,136 @@
             gap: 10px;
             padding-left: 10px;
         }
+        
         .compact-initial-row .value-col,
         .compact-initial-row .limit-col {
             flex: 1;
             display: flex;
             justify-content: center;
         }
+        
         .compact-initial-row input {
-            width: 60px;
-            padding: 4px;
+            width: 70px;
+            padding: 6px;
             text-align: center;
             font-size: 14px;
             border: 1px solid #ccc;
-            border-radius: 3px;
+            border-radius: 4px;
+            background: white;
         }
 
         .control-panel-light {
             background-color: #f9f9f9;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
-            padding: 12px 16px;
+            padding: 16px 20px;
             font-size: 14px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-top: 20px;
         }
 
         .status-line {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .status-line span {
-            font-weight: 500;
-            min-width: 60px;
+            font-weight: 600;
+            min-width: 70px;
+            color: #2c3e50;
         }
 
         .status-line input {
-            width: 120px;
-            padding: 4px 8px;
+            width: 200px;
+            padding: 8px 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 5px;
             background-color: #fff;
-            font-size: 13px;
+            font-size: 14px;
+            color: #333;
         }
 
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
         .btn-calculate,
-        .btn-refresh {
-            padding: 6px 12px;
+        .btn-refresh,
+        .btn-clear {
+            padding: 8px 16px;
             border: none;
-            border-radius: 4px;
-            font-size: 13px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
         }
 
         .btn-calculate {
-            background-color: #007bff;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             color: white;
         }
 
         .btn-calculate:hover {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 91, 187, 0.3);
         }
 
         .btn-refresh {
-            background-color: #6c757d;
+            background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
             color: white;
         }
 
         .btn-refresh:hover {
-            background-color: #545b62;
+            background: linear-gradient(135deg, #545b62 0%, #3d4246 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: linear-gradient(135deg, #c82333 0%, #a71d2a 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
         }
         
         .section-title {
-            background-color: #e9ecef;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-weight: bold;
+            
+            color: black;
+            padding: 12px 0px;
+            border-radius: 6px;
+      
+            font-weight: 600;
+            font-size: 18px;
+         
         }
         
         .faks-description {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
             margin-left: 8px;
+            font-style: italic;
         }
         
         .time-control {
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
             border-top: 1px solid #e0e0e0;
         }
         
-        .sub, .sup {
-            font-size: 10px;
-            position: relative;
-            line-height: 0;
-        }
-        
-        .sub {
-            bottom: -0.25em;
-        }
-        
-        .sup {
-            top: -0.5em;
-        }
-        .line-and-buttons{
-            display:  flex;
-            flex-direction:row;
-            gap:10px;
-            margin-top:1px;
-        }
-        
-        .equation-display {
-            font-family: monospace;
-            font-size: 13px;
-            color: #333;
+        .math-equation {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 15px;
+            color: #2c3e50;
             margin-left: 5px;
         }
         
@@ -210,6 +228,188 @@
             font-size: 11px;
             color: #666;
             margin: 0 2px;
+        }
+        
+        .function-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .function-name {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 50px;
+        }
+        
+        .function-expression {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+        
+        .function-description {
+            font-size: 12px;
+            color: #6c757d;
+            margin-left: 10px;
+            font-style: italic;
+        }
+        
+        .line-and-buttons {
+            display: flex;
+            flex-direction: row;
+            gap:10px;
+            align-items: center;
+            margin-top: 1px;
+        }
+        
+        .time-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .time-input-group label {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        #time-value {
+            width: 100px;
+            padding: 6px 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .time-note {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+      
+        /* Стили для математических формул */
+        .math-frac {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            margin: 0 2px;
+        }
+        
+        .math-frac .numerator {
+            display: block;
+            padding: 0 4px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .math-frac .denominator {
+            display: block;
+            padding: 0 4px;
+        }
+        
+        .math-exp {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .math-exp sup {
+            position: absolute;
+            top: -10px;
+            right: -8px;
+            font-size: 0.8em;
+        }
+        
+        .math-case {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 2px;
+        }
+        
+        .math-case .case-line {
+            display: block;
+            padding: 2px 4px;
+        }
+        
+        .math-case .case-brace {
+            font-size: 1.5em;
+            margin-right: 2px;
+        }
+        
+        /* Более красивое отображение экспонент */
+        .exp-format {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+        
+        .exp-format .base {
+            font-style: normal;
+        }
+        
+        .exp-format .exponent {
+            position: relative;
+            top: -0.6em;
+            font-size: 0.8em;
+            margin-left: -0.2em;
+        }
+        
+        /* Unicode математические символы */
+        .math-symbol {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 1.1em;
+        }
+        
+        .equation-container {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+        
+        .equation-part {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 2px;
+        }
+        
+        /* Стили для отображения формул */
+        .formula-display {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            margin: 4px 0;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+        
+        .sup {
+            vertical-align: super;
+            font-size: 0.8em;
+            line-height: 0;
+        }
+        
+        .frac-inline {
+            display: inline-block;
+            text-align: center;
+            line-height: 1;
+        }
+        
+        .frac-inline .num {
+            display: block;
+            border-bottom: 1px solid #000;
+            padding: 0 2px;
+        }
+        
+        .frac-inline .den {
+            display: block;
+            padding: 0 2px;
         }
     </style>
 </head>
@@ -237,31 +437,23 @@
     
     <div class="top-row">
         <div class="half-width-col">
-            <div class="section-title">Возмущения (линейные функции)</div>
-            <div class="characteristics-container" style="flex: 1; overflow-y: auto; padding: 5px; border: 1px solid #ccc; background-color: #fff;">
+            <div class="section-title">Возмущения</div>
+            <div class="characteristics-container" style="flex: 1; overflow-y: auto; padding: 10px; border: 1px solid #dee2e6; background-color: #fff; border-radius: 6px;">
                 {% for x in faks %}
                 <div class="block-function">
-                    <span style="min-width: 50px;">{{ loop.index }}. {{ x.split(' - ')[0] }} = </span>
-                    
-                    <div class="input-group">
-                        <input class="faks-input" id="faks-{{ loop.index }}-1" type="text" placeholder="a" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 50px;">{{ loop.index }}. {{ x.split(' - ')[0] }} =</div>
+                        <div style="display: flex; align-items: center; gap: 5px; margin-left: 10px;">
+                            <input class="faks-input" id="faks-{{ loop.index }}-1" type="text" placeholder="a" />
+                            {% if loop.index <= 6 %}
+                            <span>· t +</span>
+                            {% else %}
+                            <span>· C +</span>
+                            {% endif %}
+                            <input class="faks-input" id="faks-{{ loop.index }}-2" type="text" placeholder="b" />
+                        </div>
+                        <span class="faks-description" style="margin-left: auto;">{{ x.split(' - ')[1] if ' - ' in x else '' }}</span>
                     </div>
-                    
-                    {% if loop.index <= 6 %}
-                    <!-- x₁-x₆: линейные по времени t -->
-                    <span style="margin: 0 2px;">· t + </span>
-                    {% else %}
-                    <!-- x₇-x₁₄: линейные по концентрации C -->
-                    <span style="margin: 0 2px;">· C + </span>
-                    {% endif %}
-                    
-                    <div class="input-group">
-                        <input class="faks-input" id="faks-{{ loop.index }}-2" type="text" placeholder="b" />
-                        <span class="input-label"></span>
-                    </div>
-                    
-                    <span class="faks-description">{{ x.split(' - ')[1] if ' - ' in x else '' }}</span>
                 </div>
                 {% endfor %}
             </div>
@@ -269,189 +461,198 @@
 
         <div class="half-width-col">
             <div class="section-title">Внутренние функции модели</div>
-            <div class="equations-container" style="flex: 1; overflow-y: auto; padding: 5px; border: 1px solid #ccc; background-color: #fff;">
-                <!-- f₁(Cf₃) = (0.5 * e^{Cf₃}) / (1 + 0.5 * (e^{Cf₃} - 1)) -->
+            <div class="equations-container" style="flex: 1; overflow-y: auto; padding: 10px; border: 1px solid #dee2e6; background-color: #fff; border-radius: 6px;">
+                <!-- f₁(Cf₃) = (a * e^{Cf₃}) / (1 + b * (e^{Cf₃} - 1)) -->
                 <div class="block-function">
-                    <span>1. f₁(Cf₃) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-1-1" type="text" placeholder="0.5" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%; flex-wrap: wrap;">
+                        <div style="min-width: 80px; ">1. f₁(Cf₃) =</div>
+                        <div class="equation-container">
+                            <span class="frac-inline" style="margin: 0 5px;">
+                                <span class="num">
+                                    <input class="equation-input" id="equations-1-1" type="text" placeholder="0.5" style="width: 40px;" />
+                                    <span>·e</span><span class="sup">Cf₃</span>
+                                </span>
+                                <span class="den">
+                                    1 + <input class="equation-input" id="equations-1-2" type="text" placeholder="0.5" style="width: 40px;" />
+                                    <span>·(e</span><span class="sup">Cf₃</span><span> - 1)</span>
+                                </span>
+                            </span>
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Логистическая функция</span>
                     </div>
-                    <span>· e^{Cf₃} / (1 + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-1-2" type="text" placeholder="0.5" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span>· (e^{Cf₃} - 1))</span>
-                    <span class="faks-description">- логистическая</span>
                 </div>
                 
-                <!-- f₂(Cf₄) = 0.3·Cf₄ + 15 -->
+                <!-- f₂(Cf₄) = a·Cf₄ + b -->
                 <div class="block-function">
-                    <span>2. f₂(Cf₄) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-2-1" type="text" placeholder="0.3" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">2. f₂(Cf₄) =</div>
+                        <div class="equation-container">
+                            <input class="equation-input" id="equations-2-1" type="text" placeholder="0.3" style="width: 40px;" />
+                            <span>·Cf₄ +</span>
+                            <input class="equation-input" id="equations-2-2" type="text" placeholder="15" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Линейная функция</span>
                     </div>
-                    <span>· Cf₄ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-2-2" type="text" placeholder="15" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- линейная</span>
                 </div>
                 
-                <!-- f₃(Cf₅) = { 0.3 при 0 ≤ Cf₅ < 0.4; 0.5 при Cf₅ ≥ 0.4 } -->
+                <!-- f₃(Cf₅) = { a при Cf₅ < b, иначе c } -->
                 <div class="block-function">
-                    <span>3. f₃(Cf₅) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-3-1" type="text" placeholder="0.3" />
-                        <span class="input-label">нижн</span>
+                    <div style="display: flex; align-items: center; width: 100%; flex-wrap: wrap;">
+                        <div style="min-width: 80px; ">3. f₃(Cf₅) =</div>
+                        <div class="equation-container">
+                            <span style="display: inline-flex; align-items: center; font-family: 'Cambria Math', serif;">
+                                <span style="font-size: 1.2em; margin-right: 2px;">{</span>
+                                <span style="display: inline-flex; flex-direction: column; margin-right: 5px;">
+                                    <span>
+                                        <input class="equation-input" id="equations-3-1" type="text" placeholder="0.3" style="width: 40px;" />
+                                        <span> при Cf₅ <</span>
+                                        <input class="equation-input" id="equations-3-2" type="text" placeholder="0.4" style="width: 40px;" />
+                                    </span>
+                                    <span style="margin-top: 2px;">
+                                        <span> иначе</span>
+                                        <input class="equation-input" id="equations-3-3" type="text" placeholder="0.5" style="width: 40px;" />
+                                      
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                        <span class="function-description" style="margin-left: auto; margin-top: 5px;">Кусочная функция</span>
                     </div>
-                    <span> при Cf₅ < </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-3-2" type="text" placeholder="0.4" />
-                        <span class="input-label">порог</span>
-                    </div>
-                    <span>, иначе </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-3-3" type="text" placeholder="0.5" />
-                        <span class="input-label">верхн</span>
-                    </div>
-                    <span class="faks-description">- ступенчатая</span>
                 </div>
                 
-                <!-- f₄(Cf₃) = 0.7·Cf₃ + 11 -->
+                <!-- f₄(Cf₃) = a·Cf₃ + b -->
                 <div class="block-function">
-                    <span>4. f₄(Cf₃) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-4-1" type="text" placeholder="0.7" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">4. f₄(Cf₃) =</div>
+                        <div class="equation-container">
+                            <input class="equation-input" id="equations-4-1" type="text" placeholder="0.7" style="width: 40px;" />
+                            <span>·Cf₃ +</span>
+                            <input class="equation-input" id="equations-4-2" type="text" placeholder="11" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Линейная функция</span>
                     </div>
-                    <span>· Cf₃ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-4-2" type="text" placeholder="11" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- линейная</span>
                 </div>
                 
-                <!-- f₅(Cf₄) = 0.8·Cf₄ + 9 -->
+                <!-- f₅(Cf₄) = a·Cf₄ + b -->
                 <div class="block-function">
-                    <span>5. f₅(Cf₄) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-5-1" type="text" placeholder="0.8" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">5. f₅(Cf₄) =</div>
+                        <div class="equation-container">
+                            <input class="equation-input" id="equations-5-1" type="text" placeholder="0.8" style="width: 40px;" />
+                            <span>·Cf₄ +</span>
+                            <input class="equation-input" id="equations-5-2" type="text" placeholder="9" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Линейная функция</span>
                     </div>
-                    <span>· Cf₄ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-5-2" type="text" placeholder="9" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- линейная</span>
                 </div>
                 
-                <!-- f₆(Cf₅) = 0.8 / (Cf₅ + 12) -->
+                <!-- f₆(Cf₅) = a / (Cf₅ + b) -->
                 <div class="block-function">
-                    <span>6. f₆(Cf₅) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-6-1" type="text" placeholder="0.8" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px;">6. f₆(Cf₅) =</div>
+                        <div class="equation-container">
+                            <span class="frac-inline">
+                                <span class="num">
+                                    <input class="equation-input" id="equations-6-1" type="text" placeholder="0.8" style="width: 40px;" />
+                                </span>
+                                <span class="den">
+                                    Cf₅ + <input class="equation-input" id="equations-6-2" type="text" placeholder="12" style="width: 40px;" />
+                                </span>
+                            </span>
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Рациональная функция</span>
                     </div>
-                    <span> / (Cf₅ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-6-2" type="text" placeholder="12" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span>)</span>
-                    <span class="faks-description">- дробная</span>
                 </div>
                 
-                <!-- f₇(Cf₅) = 0.8 / (Cf₅ + 11) -->
+                <!-- f₇(Cf₅) = a / (Cf₅ + b) -->
                 <div class="block-function">
-                    <span>7. f₇(Cf₅) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-7-1" type="text" placeholder="0.8" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">7. f₇(Cf₅) =</div>
+                        <div class="equation-container">
+                            <span class="frac-inline">
+                                <span class="num">
+                                    <input class="equation-input" id="equations-7-1" type="text" placeholder="0.8" style="width: 40px;" />
+                                </span>
+                                <span class="den">
+                                    Cf₅ + <input class="equation-input" id="equations-7-2" type="text" placeholder="11" style="width: 40px;" />
+                                </span>
+                            </span>
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Рациональная функция</span>
                     </div>
-                    <span> / (Cf₅ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-7-2" type="text" placeholder="11" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span>)</span>
-                    <span class="faks-description">- дробная</span>
                 </div>
                 
-                <!-- f₈(Cf₁) = 0.7·Cf₁ + 13 -->
+                <!-- f₈(Cf₁) = a·Cf₁ + b -->
                 <div class="block-function">
-                    <span>8. f₈(Cf₁) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-8-1" type="text" placeholder="0.7" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">8. f₈(Cf₁) =</div>
+                        <div class="equation-container">
+                            <input class="equation-input" id="equations-8-1" type="text" placeholder="0.7" style="width: 40px;" />
+                            <span>·Cf₁ +</span>
+                            <input class="equation-input" id="equations-8-2" type="text" placeholder="13" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Линейная функция</span>
                     </div>
-                    <span>· Cf₁ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-8-2" type="text" placeholder="13" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- линейная</span>
                 </div>
                 
                 <!-- f₉(Cf₂) = 1 / (1 + e^{-Cf₂}) -->
-                <div class="block-function">
-                    <span>9. f₉(Cf₂) = 1 / (1 + e^{-Cf₂})</span>
-                    <span class="faks-description">- логистическая (фикс)</span>
+                <div class="block-function highlight">
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">9. f₉(Cf₂) =</div>
+                        <div class="equation-container">
+                            <span class="frac-inline">
+                                <span class="num">1</span>
+                                <span class="den">1 + e<span class="sup">-Cf₂</span></span>
+                            </span>
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Сигмоида</span>
+                    </div>
                 </div>
                 
-                <!-- f₁₀(Cf₃) = 0.55·Cf₃ + 13 -->
+                <!-- f₁₀(Cf₃) = a·Cf₃ + b -->
                 <div class="block-function">
-                    <span>10. f₁₀(Cf₃) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-10-1" type="text" placeholder="0.55" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">10. f₁₀(Cf₃) =</div>
+                        <div class="equation-container">
+                            <input class="equation-input" id="equations-10-1" type="text" placeholder="0.55" style="width: 40px;" />
+                            <span>·Cf₃ +</span>
+                            <input class="equation-input" id="equations-10-2" type="text" placeholder="13" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Линейная функция</span>
                     </div>
-                    <span>· Cf₃ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-10-2" type="text" placeholder="13" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- линейная</span>
                 </div>
                 
-                <!-- f₁₁(Cf₅) = 0.55 / (Cf₅ + 12) + 2 -->
+                <!-- f₁₁(Cf₅) = a / (Cf₅ + b) + c -->
                 <div class="block-function">
-                    <span>11. f₁₁(Cf₅) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-11-1" type="text" placeholder="0.55" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px; ">11. f₁₁(Cf₅) =</div>
+                        <div class="equation-container">
+                            <span class="frac-inline">
+                                <span class="num">
+                                    <input class="equation-input" id="equations-11-1" type="text" placeholder="0.55" style="width: 40px;" />
+                                </span>
+                                <span class="den">
+                                    Cf₅ + <input class="equation-input" id="equations-11-2" type="text" placeholder="12" style="width: 40px;" />
+                                </span>
+                            </span>
+                            <span> + </span>
+                            <input class="equation-input" id="equations-11-3" type="text" placeholder="2" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Рациональная функция со сдвигом</span>
                     </div>
-                    <span> / (Cf₅ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-11-2" type="text" placeholder="12" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span>) + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-11-3" type="text" placeholder="2" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- дробная</span>
                 </div>
                 
-                <!-- f₁₂(Cf₁) = 0.5·Cf₁ + 3 -->
+                <!-- f₁₂(Cf₁) = a·Cf₁ + b -->
                 <div class="block-function">
-                    <span>12. f₁₂(Cf₁) = </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-12-1" type="text" placeholder="0.5" />
-                        <span class="input-label"></span>
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div style="min-width: 80px;">12. f₁₂(Cf₁) =</div>
+                        <div class="equation-container">
+                            <input class="equation-input" id="equations-12-1" type="text" placeholder="0.5" style="width: 40px;" />
+                            <span>·Cf₁ +</span>
+                            <input class="equation-input" id="equations-12-2" type="text" placeholder="3" style="width: 40px;" />
+                        </div>
+                        <span class="function-description" style="margin-left: auto;">Линейная функция</span>
                     </div>
-                    <span>· Cf₁ + </span>
-                    <div class="input-group">
-                        <input class="equation-input" id="equations-12-2" type="text" placeholder="3" />
-                        <span class="input-label"></span>
-                    </div>
-                    <span class="faks-description">- линейная</span>
                 </div>
             </div>
         </div>
@@ -474,51 +675,47 @@
                 <input name="u{{ i }}"
                        id="init-eq-{{ i }}"
                        value="0.5"
-                       maxlength="4"
-                       placeholder="" />
+                       maxlength="6"
+                       placeholder="значение" />
             </div>
             <div class="limit-col">
                 <input name="u_restrictions{{ i }}"
                        id="restrictions-{{ i }}"
                        value="1.0"
-                       maxlength="4"
-                       placeholder="" />
+                       maxlength="6"
+                       placeholder="предел" />
             </div>
         </div>
         {% endfor %}
     </div>
 
     <div class="control-panel-light">
-        <h5>Управление расчетами</h5>
+        <h5 style="color: #2c3e50; margin-bottom: 20px;">Управление расчетами</h5>
         <div class="line-and-buttons">
-        <div class="status-line">
-            <span>Статус:</span>
-            <input type="text" readonly id="status-input" placeholder="Готов к расчетам" />
-        </div>
-        
-        <div class="button-group">
-            <button class="btn-calculate" onclick="process()">Вычислить</button>
-            <button class="btn-refresh" onclick="refill()">Заполнить случайно</button>
-            <button class="btn-refresh" onclick="clearAll()">Очистить</button>
-        </div>
-    </div>
-        
-        <div class="time-control">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-weight: 500; min-width: 100px;">Время t (для x₁-x₆):</span>
-                <input type="number" id="time-value" value="0.5" step="0.25" 
-                       style="width: 80px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px;">
-                <span style="font-size: 12px; color: #666;">
-                    (t ∈ {0, 0.25, 0.5, 0.75, 1})
-                </span>
+            <div class="status-line">
+                <span>Статус:</span>
+                <input type="text" readonly id="status-input" value="Готов к расчетам" style="color: #28a745; font-weight: 500;" />
             </div>
             
+            <div class="button-group">
+                <button class="btn-calculate" onclick="process()">Вычислить</button>
+                <button class="btn-refresh" onclick="refill()">Заполнить случайно</button>
+                <button class="btn-clear" onclick="clearAll()">Очистить</button>
+            </div>
         </div>
         
-        
+        <div class="time-control">
+            <div class="time-input-group">
+                <label for="time-value">Время t (для x₁-x₆):</label>
+                <input type="number" id="time-value" value="0.5" step="0.25" min="0" max="1">
+                <span class="time-note">t ∈ {0, 0.25, 0.5, 0.75, 1}</span>
+            </div>
+        </div>
     </div>
 </div>
 </div>
+
 <script src="/static/js/script.js"></script>
+
 </body>
 </html>

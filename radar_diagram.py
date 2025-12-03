@@ -75,11 +75,10 @@ class RadarDiagram:
         fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(projection='radar'))
         fig.subplots_adjust(top=0.85, bottom=0.05)
 
-        # НАХОДИМ МАКСИМАЛЬНОЕ ЗНАЧЕНИЕ ДЛЯ КАЖДОЙ ОСИ ОТДЕЛЬНО!
-        # Для каждой оси своя шкала!
+    
         max_vals = []
         for i in range(N):
-            axis_max = 1.0  # минимум 1.0 для каждой оси
+            axis_max = 1.0  
             
             if restrictions is not None and i < len(restrictions):
                 axis_max = max(axis_max, restrictions[i])
@@ -94,25 +93,23 @@ class RadarDiagram:
             axis_max = axis_max * 1.1
             max_vals.append(axis_max)
         
-        # Устанавливаем индивидуальные пределы для каждой оси
-        ax.set_ylim(0, max(max_vals))  # общий максимум для визуализации
-        
-        # Предельная линия - ИНДИВИДУАЛЬНЫЕ ПРЕДЕЛЫ ДЛЯ КАЖДОЙ ХАРАКТЕРИСТИКИ
+      
+        ax.set_ylim(0, max(max_vals)) 
+    
         if restrictions is not None and len(restrictions) == N:
-            # Рисуем зеленую линию с ИНДИВИДУАЛЬНЫМИ значениями для каждой характеристики
+  
             ax.plot(theta, restrictions, color='green', linewidth=2, linestyle='--', 
                     alpha=0.7, label="Предельные значения")
         
         if show_both_lines:
-            # НАЧАЛЬНЫЕ ДАННЫЕ (красные) - абсолютные значения
-            ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные потери")
-            
-            # ТЕКУЩИЕ ДАННЫЕ (синие) - абсолютные значения
-            ax.plot(theta, current_data, color='blue', linewidth=2, label="Текущие потери")
+           
+            ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные условия")
+ 
+            ax.plot(theta, current_data, color='blue', linewidth=2, label="Текущие характеристики")
             
             ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.0), fontsize='small')
         else:
-            ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные потери")
+            ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные условия")
             ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.0), fontsize='small')
 
         # Измененные метки для экологической модели
