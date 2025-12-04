@@ -89,7 +89,6 @@ class RadarDiagram:
             if i < len(current_data):
                 axis_max = max(axis_max, current_data[i])
             
-            # Добавляем запас 10%
             axis_max = axis_max * 1.1
             max_vals.append(axis_max)
         
@@ -112,16 +111,13 @@ class RadarDiagram:
             ax.plot(theta, initial_data, color='red', linewidth=2, label="Начальные условия")
             ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.0), fontsize='small')
 
-        # Измененные метки для экологической модели
         var_labels = ["Cf1", "Cf2", "Cf3", "Cf4", "Cf5"]
         ax.set_varlabels(var_labels)
-        
-        # Подписи значений на зеленой линии (пределах)
+
         if restrictions is not None and len(restrictions) == N:
             for i in range(N):
                 angle = theta[i]
                 value = restrictions[i]
-                # Добавляем подпись значения предела
                 ax.text(angle, value * 1.02, f'{value:.2f}', 
                     color='green', fontsize=9, ha='center', va='bottom')
 

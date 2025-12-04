@@ -10,7 +10,6 @@ if (status !== "Выполнено") {
         </div>
     `
 } else {
-    // Проверяем загрузку каждой диаграммы
     const diagrams = ['diagram1', 'diagram2', 'diagram3', 'diagram4', 'diagram5']
     
     diagrams.forEach((id, index) => {
@@ -25,7 +24,7 @@ if (status !== "Выполнено") {
                 `
             }
             
-            // Добавляем временную метку для предотвращения кэширования
+          
             img.src = img.src.split('?')[0] + '?t=' + new Date().getTime()
         }
     })

@@ -13,7 +13,6 @@ os.makedirs('static/images', exist_ok=True)
 def main():
     return render_template('index.html',
                          initial_equations=u_list,
-                         # 14 возмущений (6 зависят от времени, 8 от концентрации)
                          faks=[
                              "x₁(t) - Износ оборудования",
                              "x₂(t) - Кредитные ресурсы", 
@@ -30,7 +29,6 @@ def main():
                              "x₁₃(C) - Эпидемиологическая ситуация",
                              "x₁₄(C) - Санкции"
                          ],
-                         # 12 внутренних функций
                          equations=[
                              "f₁(Cf₃) - Влияние на заболеваемость",
                              "f₂(Cf₄) - Влияние на качество жизни",
@@ -55,7 +53,6 @@ def draw_graphics():
     try:
         data = request.get_json()
         
-        # Получаем время из запроса (по умолчанию 0.0)
         time_value = data.get("time_value", "0.0")
         
         process(
@@ -108,8 +105,5 @@ def clear_images():
         return jsonify({"status": "Error clearing images"})
 
 if __name__ == '__main__':
-    # Настройка логирования
     logging.basicConfig(level=logging.INFO)
-    
-    # Запуск приложения
     app.run(host='0.0.0.0', port=5000, debug=True)

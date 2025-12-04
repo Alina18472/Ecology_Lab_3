@@ -11,7 +11,7 @@ if (status !== "Выполнено") {
         </div>
     `
 } else {
-    // Проверяем, загрузилось ли изображение
+  
     element.onload = function() {
         element.style.display = "block"
     }
@@ -25,7 +25,6 @@ if (status !== "Выполнено") {
             </div>
         `
     }
-    
-    // Добавляем временную метку для предотвращения кэширования
+
     element.src = element.src.split('?')[0] + '?t=' + new Date().getTime()
 }

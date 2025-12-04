@@ -10,7 +10,6 @@
     border: 1px solid #e9ecef;
 }
 
-/* Основной контейнер внутри блока с фоном */
 .container {
     max-width: 1400px; 
     margin: 0 auto;
@@ -59,7 +58,7 @@ body {
     background-color: #34495e;
 }
 
-/* Контейнеры с прокруткой */
+
 .container-scroll {
     max-height: 400px; 
     overflow-y: auto;
@@ -78,7 +77,7 @@ body {
     max-height: 400px;
 }
 
-/* Блоки функций */
+
 .block-function {
     background-color: white;
     border: 2px solid #e9ecef; 
@@ -101,7 +100,7 @@ body {
     background: linear-gradient(90deg, #f8f9ff 0%, #ffffff 100%);
 }
 
-/* Панель управления */
+
 .control-panel {
     background: white;
     padding-bottom: 35px; 
@@ -209,7 +208,7 @@ button:hover {
     font-weight: 500;
 }
 
-/* Заголовки */
+
 h5 {
     color: #2c3e50;
     margin-bottom: 20px;
@@ -219,7 +218,7 @@ h5 {
     letter-spacing: 0.5px; 
 }
 
-/* Поля ввода */
+
 .initial-conditions input[type="text"] {
     font-size: 16px;
     padding: 6px 8px; 
@@ -252,7 +251,7 @@ h5 {
     height: 26px;
 }
 
-/* Текст в начальных условиях */
+
 .initial-conditions .block-function {
     font-size: 16px; 
     padding: 18px 20px; 
@@ -268,7 +267,6 @@ h5 {
     font-weight: 500;
 }
 
-/* Центрированные блоки */
 .center-row {
     display: flex;
     justify-content: center;
@@ -291,7 +289,7 @@ h5 {
     max-width: 900px;
 }
 
-/* Характеристики и Уравнения */
+
 .top-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -299,7 +297,6 @@ h5 {
     margin-bottom: 35px;
 }
 
-/* Стили для компактного блока начальных условий */
 .compact-initial-container {
     margin-top: 20px;
     width: 100%;
@@ -357,7 +354,6 @@ h5 {
     border-radius: 4px;
 }
 
-/* Контейнеры характеристик и уравнений */
 .characteristics-container {
     flex: 1;
     overflow-y: auto;
@@ -377,7 +373,6 @@ h5 {
     border-radius: 8px;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
     .all {
         margin: 15px;
@@ -433,7 +428,7 @@ h5 {
     }
 }
 
-/* Стилизация скроллбара */
+
 .container-scroll::-webkit-scrollbar {
     width: 8px;
 }
@@ -468,7 +463,7 @@ h5 {
     border-radius: 3px;
 }
 
-/* Стили для страницы с графиком */
+
 .graphic-section {
     text-align: center;
     padding: 20px 0;
@@ -533,7 +528,7 @@ h5 {
     text-align: center;
 }
 
-/* Стили для страницы с диаграммами */
+
 .diagrams-section {
     padding: 20px 0;
 }
@@ -575,7 +570,7 @@ h5 {
     line-height: 1.4;
 }
 
-/* Адаптивность для графиков и диаграмм */
+
 @media (max-width: 768px) {
     .page-title {
         font-size: 24px;
@@ -614,7 +609,7 @@ h5 {
     }
 }
 
-/* Стили для скрытия изображений если расчет не выполнен */
+
 #graphic-image[style*="hidden"],
 #disturbances-image[style*="hidden"],
 .diagram-img[style*="hidden"] {
@@ -641,7 +636,6 @@ h5 {
     font-size: 16px;
 }
 
-/* Стили для подписей Cf1-Cf5 в начальных условиях */
 .param-header {
     display: flex;
     align-items: center;
@@ -678,7 +672,7 @@ h5 {
     margin-right: 10px;
 }
 
-/* Стили для строк с значениями */
+
 .param-row {
     display: flex;
     gap: 10px;
@@ -695,7 +689,6 @@ h5 {
     font-weight: 500;
 }
 
-/* Блоки начальных условий */
 .initial-conditions .block-function {
     padding: 15px 20px;
     min-height: 90px;
@@ -704,7 +697,7 @@ h5 {
     justify-content: space-between;
 }
 
-/* Стили для объяснения возмущений */
+
 .disturbances-explanation {
     margin-top: 20px;
     padding: 15px;
@@ -753,7 +746,7 @@ h5 {
     margin-bottom: 8px;
 }
 
-/* Дополнительные стили для табличной структуры */
+
 .u-table {
     width: 100%;
     border-collapse: collapse;
@@ -800,7 +793,7 @@ h5 {
     padding-left: 10px;
 }
 
-/* Стили для разделителей возмущений */
+
 .characteristics-container > div {
    
 }
@@ -812,7 +805,7 @@ h5 {
     font-weight: 600;
 }
 
-/* Улучшенные стили для блоков функций */
+
 .block-function {
     display: flex;
     align-items: center;
@@ -822,7 +815,7 @@ h5 {
     flex-wrap: wrap;
 }
 
-/* Адаптивность для мобильных устройств */
+
 @media (max-width: 480px) {
     .block-function {
         font-size: 14px;

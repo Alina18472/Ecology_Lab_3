@@ -9,10 +9,9 @@ def get_faks_from_inputs(ui):
     """
     result = []
     
-    for fak_num in range(1, 15):  # от x1 до x14
+    for fak_num in range(1, 15):  
         params = []
-        # Теперь только 2 коэффициента: a и b
-        for param_num in range(1, 3):  # коэффициенты a, b
+        for param_num in range(1, 3): 
             try:
                 element_id = f"faks-{fak_num}-{param_num}"
                 value = float(getattr(ui, f"lineEdit_{element_id}").text())
@@ -25,13 +24,8 @@ def get_faks_from_inputs(ui):
     return result
 
 def get_equations_from_inputs(ui):
-    """
-    Получение коэффициентов для 12 внутренних функций f1-f12
-    Теперь разные функции имеют разное количество параметров
-    """
     result = []
-    
-    # f₁: логистическая (2 параметра)
+ 
     params = []
     for param_num in range(1, 3):  # a, b
         try:
@@ -42,7 +36,6 @@ def get_equations_from_inputs(ui):
             params.append(0.5 if param_num == 1 else 0.5)
     result.append(params)
     
-    # f₂: линейная (2 параметра)
     params = []
     for param_num in range(1, 3):
         try:
@@ -52,8 +45,7 @@ def get_equations_from_inputs(ui):
         except:
             params.append(0.3 if param_num == 1 else 15.0)
     result.append(params)
-    
-    # f₃: ступенчатая (3 параметра)
+
     params = []
     for param_num in range(1, 4):
         try:
@@ -66,7 +58,7 @@ def get_equations_from_inputs(ui):
             else: params.append(0.5)
     result.append(params)
     
-    # f₄: линейная (2 параметра)
+
     params = []
     for param_num in range(1, 3):
         try:
@@ -76,8 +68,7 @@ def get_equations_from_inputs(ui):
         except:
             params.append(0.7 if param_num == 1 else 11.0)
     result.append(params)
-    
-    # f₅: линейная (2 параметра)
+
     params = []
     for param_num in range(1, 3):
         try:
@@ -87,8 +78,7 @@ def get_equations_from_inputs(ui):
         except:
             params.append(0.8 if param_num == 1 else 9.0)
     result.append(params)
-    
-    # f₆: дробная (2 параметра)
+ 
     params = []
     for param_num in range(1, 3):
         try:
@@ -99,7 +89,7 @@ def get_equations_from_inputs(ui):
             params.append(0.8 if param_num == 1 else 12.0)
     result.append(params)
     
-    # f₇: дробная (2 параметра)
+ 
     params = []
     for param_num in range(1, 3):
         try:
@@ -110,7 +100,7 @@ def get_equations_from_inputs(ui):
             params.append(0.8 if param_num == 1 else 11.0)
     result.append(params)
     
-    # f₈: линейная (2 параметра)
+
     params = []
     for param_num in range(1, 3):
         try:
@@ -121,10 +111,10 @@ def get_equations_from_inputs(ui):
             params.append(0.7 if param_num == 1 else 13.0)
     result.append(params)
     
-    # f₉: логистическая (2 параметра, но в интерфейсе нет полей)
-    result.append([10.0, 5.0])  # значения по умолчанию
+
+    result.append([10.0, 5.0])
     
-    # f₁₀: линейная (2 параметра)
+
     params = []
     for param_num in range(1, 3):
         try:
@@ -135,7 +125,7 @@ def get_equations_from_inputs(ui):
             params.append(0.55 if param_num == 1 else 13.0)
     result.append(params)
     
-    # f₁₁: дробная (3 параметра)
+
     params = []
     for param_num in range(1, 4):
         try:
@@ -148,7 +138,7 @@ def get_equations_from_inputs(ui):
             else: params.append(2.0)
     result.append(params)
     
-    # f₁₂: линейная (2 параметра)
+
     params = []
     for param_num in range(1, 3):
         try:
@@ -162,11 +152,9 @@ def get_equations_from_inputs(ui):
     return result
 
 def validate_inputs(initial_equations, faks, equations, restrictions):
-    """
-    Валидация входных данных
-    """
+
     try:
-        # Проверка начальных условий (5 значений 0-1)
+  
         if len(initial_equations) != 5:
             return False, "Должно быть 5 начальных значений"
         
@@ -174,15 +162,13 @@ def validate_inputs(initial_equations, faks, equations, restrictions):
             if not (0 <= val <= 1):
                 return False, f"Начальное значение Cf{i+1} должно быть в диапазоне [0, 1]"
         
-        # Проверка предельных значений (5 значений 0-1)
         if len(restrictions) != 5:
             return False, "Должно быть 5 предельных значений"
         
         for i, val in enumerate(restrictions):
             if not (0 <= val <= 1):
                 return False, f"Предельное значение Cf{i+1} должно быть в диапазоне [0, 1]"
-        
-        # Проверка возмущений (14 x 2)
+
         if len(faks) != 14:
             return False, "Должно быть 14 возмущений"
         
@@ -190,11 +176,10 @@ def validate_inputs(initial_equations, faks, equations, restrictions):
             if len(fak) != 2:
                 return False, f"Возмущение x{i+1} должно иметь 2 коэффициента (a и b)"
         
-        # Проверка внутренних функций (12 функций, разное количество параметров)
+     
         if len(equations) != 12:
             return False, "Должно быть 12 внутренних функций"
-        
-        # Проверяем количество параметров для каждой функции
+ 
         expected_lengths = [2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2]
         for i, eq in enumerate(equations):
             if i < len(expected_lengths) and len(eq) != expected_lengths[i]:
